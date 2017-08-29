@@ -67,6 +67,24 @@ const showGameSuccess = (data) => console.log(data)
 
 const showGameFailure = (error) => console.log(error)
 
+const postWantedGameSuccess = (data) => {
+  store.game_id = data.wanted_game.game_id
+  console.log(data)
+}
+const postWantedGameFailure = (error) => console.log(error)
+
+const deleteWantedGameSuccess = (data) => console.log(data)
+
+const deleteWantedGameFailure = (error) => console.log(error)
+
+const indexWantedGamesSuccess = (data) => console.log(data)
+
+const indexWantedGamesFailure = (error) => console.log(error)
+
+const showWantedGameSuccess = (data) => console.log(data)
+
+const showWantedGameFailure = (error) => console.log(error)
+
 module.exports = {
   signUpSuccess,
   signUpFailure,
@@ -78,5 +96,13 @@ module.exports = {
   indexGamesSuccess,
   indexGamesFailure,
   showGameSuccess,
-  showGameFailure
+  showGameFailure,
+  postWantedGameSuccess,
+  postWantedGameFailure,
+  deleteWantedGameSuccess,
+  deleteWantedGameFailure,
+  indexWantedGamesSuccess,
+  indexWantedGamesFailure,
+  showWantedGameSuccess,
+  showWantedGameFailure
 }
