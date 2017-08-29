@@ -59,6 +59,14 @@ const signOutSuccess = () => {
   $('.clear-input').val('')
 }
 
+const indexGamesSuccess = (data) => console.log(data)
+
+const indexGamesFailure = (error) => console.log(error)
+
+const showGameSuccess = (data) => console.log(data)
+
+const showGameFailure = (error) => console.log(error)
+
 module.exports = {
   signUpSuccess,
   signUpFailure,
@@ -66,5 +74,9 @@ module.exports = {
   signInFailure,
   changePasswordSuccess,
   changePasswordFailure,
-  signOutSuccess
+  signOutSuccess,
+  indexGamesSuccess,
+  indexGamesFailure,
+  showGameSuccess,
+  showGameFailure
 }
