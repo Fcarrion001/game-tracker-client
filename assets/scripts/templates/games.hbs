@@ -1,0 +1,22 @@
+<h4>Games</h4>
+
+{{#each games as |game|}}
+<div class="col-xs-4 box">
+  <div data-id="{{game.id}}">
+    <ul name='game_name' class='handlebars-fields'>
+      <h6>Name</h6>
+      <li>{{game.game_name}}</li>
+      <h6>Platform</h6>
+      <li>{{game.platform}}</li>
+      <h6>Release Date</h6>
+      <li>{{game.release_date}}</li>
+    </ul>
+    <form id="post-wanted-game">
+      <fieldset>
+        <input type="hidden" name="wanted_game[game_id]" value={{game.id}}>
+        <input type="submit" name="submit" value="Add to wishlist">
+      </fieldset>
+    </form>
+  </div>
+</div>
+{{/each}}
