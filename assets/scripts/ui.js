@@ -1,4 +1,5 @@
 const store = require('./store')
+const showGamesTemplate = require('./templates/games.hbs')
 const inputValue = (target) => $(target).val()
 
 const signUpSuccess = (data) => {
@@ -59,12 +60,18 @@ const signOutSuccess = () => {
   $('.clear-input').val('')
 }
 
-const indexGamesSuccess = (data) => console.log(data)
+const indexGamesSuccess = (data) => {
+  console.log(data)
+  const showGamesHTML = showGamesTemplate({ games: data.games })
+  $('.content').append(showGamesHTML)
+  store.games = data.games
+}
 
 const indexGamesFailure = (error) => console.log(error)
 
-const showGameSuccess = (data) => console.log(data)
-
+const showGameSuccess = (data) => {
+  console.log(data)
+}
 const showGameFailure = (error) => console.log(error)
 
 const postWantedGameSuccess = (data) => {

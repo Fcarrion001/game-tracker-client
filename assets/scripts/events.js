@@ -7,7 +7,7 @@ const addHandlers = () => {
   $('#show-game').on('submit', onShowGame)
   $('#index-wanted-games').on('submit', onIndexWantedGames)
   $('#show-wanted-game').on('submit', onShowWantedGame)
-  $('#post-wanted-game').on('submit', onPostWantedGame)
+  $('.content').on('submit', '#post-wanted-game', onPostWantedGame)
   $('#delete-wanted-game').on('submit', onDeleteWantedGame)
 }
 
@@ -15,7 +15,7 @@ const onIndexGames = function (event) {
   console.log('it works here')
   event.preventDefault()
   api.indexGames()
-    .then((data) => ui.indexGamesSuccess(data))
+    .then(ui.indexGamesSuccess)
     .catch(ui.indexGamesFailure)
 }
 
