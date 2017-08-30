@@ -1,0 +1,20 @@
+<h4>Wanted Games</h4>
+
+{{#each wanted_games as |wanted_game|}}
+<div class="col-xs-4 box">
+  <div data-id="{{wanted_game.id}}">
+    <ul name='wanted_game' class='handlebars-fields'>
+      <li>{{wanted_game.game.game_name}}</li>
+      <li>{{wanted_game.game.platform}}</li>
+      <li>{{wanted_game.game.release_date}}</li>
+    </ul>
+
+    <form id="delete-wanted-game">
+      <fieldset>
+        <input type="hidden" name="wanted_game[id]" value={{wanted_game.id}}>
+        <input type="submit" name="submit" value="Remove">
+      </fieldset>
+    </form>
+  </div>
+</div>
+{{/each}}

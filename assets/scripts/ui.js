@@ -1,5 +1,6 @@
 const store = require('./store')
 const showGamesTemplate = require('./templates/games.hbs')
+const showWantedGamesTemplate = require('./templates/wanted-games.hbs')
 const inputValue = (target) => $(target).val()
 
 const signUpSuccess = (data) => {
@@ -51,7 +52,7 @@ const changePasswordFailure = (data) => {
 }
 
 const signOutSuccess = () => {
-  $('.content').text('')
+  $('.content').html('')
   $('.not-signed-in').hide()
   $('#sign-up').show()
   $('#sign-in').show()
@@ -61,10 +62,11 @@ const signOutSuccess = () => {
 }
 
 const indexGamesSuccess = (data) => {
-  console.log(data)
+  $('.content').html('')
   const showGamesHTML = showGamesTemplate({ games: data.games })
   $('.content').append(showGamesHTML)
   store.games = data.games
+  console.log('store.game = ', store.games)
 }
 
 const indexGamesFailure = (error) => console.log(error)
@@ -84,8 +86,14 @@ const deleteWantedGameSuccess = (data) => console.log(data)
 
 const deleteWantedGameFailure = (error) => console.log(error)
 
-const indexWantedGamesSuccess = (data) => console.log(data)
-
+const indexWantedGamesSuccess = (data) => {
+  $('.content').html('')
+  console.log(data)
+  const showWantedGamesHTML = showWantedGamesTemplate({ wanted_games: data.wanted_games })
+  $('.content').append(showWantedGamesHTML)
+  store.wanted_games = data.wanted_games
+  console.log('store.game = ', store.wanted_games)
+}
 const indexWantedGamesFailure = (error) => console.log(error)
 
 const showWantedGameSuccess = (data) => console.log(data)
