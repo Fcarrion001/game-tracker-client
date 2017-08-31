@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-      <title>Example</title>
+      <title>Game Tracker</title>
       <meta name="viewport" content="width=device-width, initial-scale=1">
 
       <!-- Do not add `link` tags unless you know what you are doing -->
@@ -12,15 +12,9 @@
       <script src="public/application.js" type="text/javascript" charset="utf-8" defer></script>
     </head>
     <body class="container-fluid">
-      <h1>Example</h1>
+      <h1>Game Tracker</h1>
 
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-      eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-      minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-      ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-      velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-      cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-      est laborum.</p>
+      <p>Keep track of games coming out and see what other people are buzzing about</p>
 
   <div id='page-wrap'>
     <form id="sign-up">
@@ -106,5 +100,51 @@
     <div id="content" class="content not-signed-in">
     </div>
   </div>
+
+  <table id="table_id" class="display table table-striped table-bordered" width="100%" data-page-length="10" data-order="[[ 1, &quot;asc&quot; ]]">
+    <thead>
+        <tr>
+            <th class='index-api'>Name</th>
+            <th class='index-api'>Release Date</th>
+            <th class='index-api'>ID</th>
+
+        </tr>
+    </thead>
+
+    <tfoot>
+      <tr>
+          <th class='index-api'>Name</th>
+          <th class='index-api'>Release Date</th>
+          <th class='index-api'>ID</th>
+      </tr>
+    </tfoot>
+</table>
+
+  <table id="show_table_id" class="display table table-striped table-bordered" width="100%" data-page-length="10" data-order="[[ 1, &quot;asc&quot; ]]">
+    <thead>
+        <tr>
+            <th class='show_table-api'>Name</th>
+            <th class='show_table-api'>Release Date</th>
+            <th class='show_table-api'>popularity</th>
+            <!-- <th class='show_table-api'>rating</th> -->
+            <th class='show_table-api'>summary</th>
+            <!-- <th class='show_table-api'>storyline> -->
+            <th class='show_table-api'>ID</th>
+        </tr>
+    </thead>
+
+    <tfoot>
+      <tr>
+          <th class='show_table-api'>Name</th>
+          <th class='show_table-api'>Release Date</th>
+          <th class='show_table-api'>popularity</th>
+          <!-- <th class='show_table-api'>rating</th> -->
+          <th class='show_table-api'>summary</th>
+          <!-- <th class='show_table-api'>storyline> -->
+          <th class='show_table-api'>ID</th>
+
+      </tr>
+    </tfoot>
+</table>
     </body>
 </html>

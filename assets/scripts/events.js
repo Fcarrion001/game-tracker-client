@@ -1,6 +1,8 @@
 const getFormFields = require('../../lib/get-form-fields')
 const api = require('./api')
 const ui = require('./ui')
+const $ = require('jquery')
+const dt = require('datatables.net')
 
 const addHandlers = () => {
   $('#index-games').on('submit', onIndexGames)
@@ -10,8 +12,12 @@ const addHandlers = () => {
   $('.content').on('submit', '#post-wanted-game', onPostWantedGame)
   $('.content').on('submit', '#delete-wanted-game', onDeleteWantedGame)
   $('#index-api-games').on('submit', onIndexApiGames)
+  $('#table_id').on('click', 'tbody', onShowApiGame)
 }
 
+  // $(document).ready(function () {
+  //   $('#table_id').DataTable()
+  // })
 const onIndexGames = function (event) {
   console.log('it works here')
   event.preventDefault()
@@ -70,6 +76,20 @@ const onIndexApiGames = function (event) {
   api.indexApiGames()
     .then(ui.indexApiGamesSuccess)
     .catch(ui.indexApiGamesFailure)
+}
+
+const onShowApiGame = function (event) {
+  event.preventDefault()
+  const data = $(event.target).parent().attr('id')
+  console.log('data is ', data)
+  console.log('event.target', $(event.target).parent().attr('id'))
+  api.showApiGame(data)
+    .then((data) => {
+      console.log('this is data ', data)
+      return data
+    })
+    .then(ui.showApiGameSuccess)
+    .catch(ui.showApiGameFailure)
 }
 
 // const keys = [1, 'playstation', 2, 'xbox']

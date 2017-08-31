@@ -3,7 +3,8 @@
 const getFormFields = require('../../lib/get-form-fields')
 const api = require('./auth-api')
 const ui = require('./ui')
-
+const $ = require('jquery')
+const dt = require('datatables.net')
 const addHandlers = () => {
   $('#sign-up').on('submit', onSignUp)
   $('#sign-in').on('submit', onSignIn)

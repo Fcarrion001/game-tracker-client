@@ -2,6 +2,8 @@ const store = require('./store')
 const showGamesTemplate = require('./templates/games.hbs')
 const showWantedGamesTemplate = require('./templates/wanted-games.hbs')
 const showApiGamesTemplate = require('./templates/api-games.hbs')
+const $ = require('jquery')
+const dt = require('datatables.net')
 const inputValue = (target) => $(target).val()
 
 const signUpSuccess = (data) => {
@@ -13,7 +15,7 @@ const signUpFailure = () => {
   if (inputValue('.signUp-email') === '' || inputValue('.signUp-pw') === '' || inputValue('.signUp-pw-conf') === '') {
     $('.signUp-error').text('Please fill in all fields prior to submission')
   } else if ($('.signUp-pw').val() !== $('.signUp-pw-conf').val()) {
-  // if they do not match tell the user what went wrong
+    // if they do not match tell the user what went wrong
     $('.signUp-error').text('Sorry, the passwords you entered do not match. Please try again')
   } else {
     // if they do match the email must be taken
@@ -64,7 +66,9 @@ const signOutSuccess = () => {
 
 const indexGamesSuccess = (data) => {
   $('.content').html('')
-  const showGamesHTML = showGamesTemplate({ games: data.games })
+  const showGamesHTML = showGamesTemplate({
+    games: data.games
+  })
   $('.content').append(showGamesHTML)
   store.games = data.games
   console.log('store.game = ', store.games)
@@ -90,7 +94,9 @@ const deleteWantedGameFailure = (error) => console.log(error)
 const indexWantedGamesSuccess = (data) => {
   $('.content').html('')
   console.log(data)
-  const showWantedGamesHTML = showWantedGamesTemplate({ wanted_games: data.wanted_games })
+  const showWantedGamesHTML = showWantedGamesTemplate({
+    wanted_games: data.wanted_games
+  })
   $('.content').append(showWantedGamesHTML)
   store.wanted_games = data.wanted_games
   console.log('store.game = ', store.wanted_games)
@@ -106,19 +112,60 @@ const indexApiGamesSuccess = (data) => {
   for (let i = 0; i < data.length; i++) {
     games.push(data[i])
   }
-  console.log('games[0][1]')
   games.forEach(function (element) {
-    element.first_release_date
-    const date = new Date(element.first_release_date)
-    element.first_release_date = date.toDateString()
+    let epochDate = element.first_release_date
+    const date = new Date(epochDate)
+    epochDate = date.toDateString()
     return
   })
-  const showApiGamesHTML = showApiGamesTemplate({ games: games })
-  $('.content').append(showApiGamesHTML)
-  store.games = games
+  // console.log('data ', data)
+  // console.log('games', games)
+  $('#table_id').DataTable({
+    data: data,
+    rowId: 'id',
+    columns: [
+    {data: 'name'},
+    {data: 'first_release_date'},
+    {data: 'id'}
+    ]
+  })
+  const table = $('#table_id').DataTable()
+
+  $('#table_id tbody').on('click', 'tr', function () {
+    if ($(this).hasClass('selected')) {
+      $(this).removeClass('selected')
+    } else {
+      table.$('tr.selected').removeClass('selected')
+      $(this).addClass('selected')
+    }
+  })
+  // $('#button').click(function() {
+  //   table.row('.selected').remove().draw()
+  // })
+  const showGamesHTML = showGamesTemplate({
+    game: games
+  })
+  $('#table_id').append(showGamesHTML)
+  store.game = games
   console.log('store.games ', store.games)
 }
 const indexApiGamesFailure = (error) => console.log(error)
+
+const showApiGameSuccess = (data) => {
+  $('#show_table_id').DataTable({
+    data: data,
+    rowId: 'id',
+    columns: [
+    { data: 'name' },
+    { data: 'first_release_date' },
+    { data: 'popularity' },
+    // { data: 'total_rating' },
+    { data: 'summary' },
+    // { data: 'storyline' },
+    {data: 'id'}
+    ]
+  })
+}
 
 module.exports = {
   signUpSuccess,
@@ -141,5 +188,6 @@ module.exports = {
   showWantedGameSuccess,
   showWantedGameFailure,
   indexApiGamesSuccess,
-  indexApiGamesFailure
+  indexApiGamesFailure,
+  showApiGameSuccess
 }
