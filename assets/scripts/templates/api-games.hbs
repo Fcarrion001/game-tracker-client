@@ -1,0 +1,16 @@
+<h4>Api Games</h4>
+
+{{#each games as |game|}}
+<div class="col-xs-4 box">
+  <div data-id="{{game.id}}">
+    <ul name='games' class='handlebars-fields'>
+    <h6>Name</h6>
+      <li>{{game.name}}</li>
+    <h6>Platform</h6>
+      <li>playstation</li>
+    <h6>Release Date</h6>
+      <li>{{first_release_date}}</li>
+    </ul>
+  </div>
+</div>
+    {{/each}}

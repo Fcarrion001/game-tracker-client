@@ -9,6 +9,7 @@ const addHandlers = () => {
   $('#show-wanted-game').on('submit', onShowWantedGame)
   $('.content').on('submit', '#post-wanted-game', onPostWantedGame)
   $('.content').on('submit', '#delete-wanted-game', onDeleteWantedGame)
+  $('#index-api-games').on('submit', onIndexApiGames)
 }
 
 const onIndexGames = function (event) {
@@ -64,6 +65,24 @@ const onDeleteWantedGame = function (event) {
     .catch(ui.deleteWantedGameFailure)
 }
 
+const onIndexApiGames = function (event) {
+  event.preventDefault()
+  api.indexApiGames()
+    .then(ui.indexApiGamesSuccess)
+    .catch(ui.indexApiGamesFailure)
+}
+
+// const keys = [1, 'playstation', 2, 'xbox']
+// const convert = function (elem) {
+//   for (let i = 0; i < keys.length; i++) {
+//     if (elem === keys[i]) {
+//       elem = keys[i + 1]
+//       return elem
+//     }
+//   }
+// }
+// let platform = 1
+// convert(platform)
 module.exports = {
   addHandlers
 }

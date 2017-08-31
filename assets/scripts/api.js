@@ -62,11 +62,22 @@ const showWantedGame = function (data) {
   })
 }
 
+const indexApiGames = function () {
+  return $.ajax({
+    url: config.apiOrigin + '/api-games',
+    method: 'GET',
+    headers: {
+      Authorization: 'Token token=' + store.user.token
+    }
+  })
+}
+
 module.exports = {
   indexGames,
   showGame,
   postWantedGame,
   deleteWantedGame,
   indexWantedGames,
-  showWantedGame
+  showWantedGame,
+  indexApiGames
 }

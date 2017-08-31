@@ -1,6 +1,7 @@
 const store = require('./store')
 const showGamesTemplate = require('./templates/games.hbs')
 const showWantedGamesTemplate = require('./templates/wanted-games.hbs')
+const showApiGamesTemplate = require('./templates/api-games.hbs')
 const inputValue = (target) => $(target).val()
 
 const signUpSuccess = (data) => {
@@ -100,6 +101,25 @@ const showWantedGameSuccess = (data) => console.log(data)
 
 const showWantedGameFailure = (error) => console.log(error)
 
+const indexApiGamesSuccess = (data) => {
+  const games = []
+  for (let i = 0; i < data.length; i++) {
+    games.push(data[i])
+  }
+  console.log('games[0][1]')
+  games.forEach(function (element) {
+    element.first_release_date
+    const date = new Date(element.first_release_date)
+    element.first_release_date = date.toDateString()
+    return
+  })
+  const showApiGamesHTML = showApiGamesTemplate({ games: games })
+  $('.content').append(showApiGamesHTML)
+  store.games = games
+  console.log('store.games ', store.games)
+}
+const indexApiGamesFailure = (error) => console.log(error)
+
 module.exports = {
   signUpSuccess,
   signUpFailure,
@@ -119,5 +139,7 @@ module.exports = {
   indexWantedGamesSuccess,
   indexWantedGamesFailure,
   showWantedGameSuccess,
-  showWantedGameFailure
+  showWantedGameFailure,
+  indexApiGamesSuccess,
+  indexApiGamesFailure
 }
