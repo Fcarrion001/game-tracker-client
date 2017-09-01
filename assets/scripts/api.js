@@ -2,7 +2,8 @@
 
 const store = require('./store')
 const config = require('./config')
-
+const $ = require('jquery')
+const dt = require('datatables.net')
 // ajax request GET to games
 const indexGames = function () {
   return $.ajax({
@@ -24,7 +25,21 @@ const showGame = function (data) {
   })
 }
 
+const createGame = function (data) {
+  console.log('createGame in api running')
+  console.log('data = ', data)
+  return $.ajax({
+    url: config.apiOrigin + '/games',
+    method: 'POST',
+    headers: {
+      Authorization: 'Token token=' + store.user.token
+    },
+    data
+  })
+}
+
 const postWantedGame = function (data) {
+  console.log('this is data', data)
   return $.ajax({
     url: config.apiOrigin + '/wanted_games',
     method: 'POST',
@@ -62,11 +77,34 @@ const showWantedGame = function (data) {
   })
 }
 
+const indexApiGames = function (data) {
+  console.log('data in api = ', data.token)
+  return $.ajax({
+    url: config.apiOrigin + '/api-games',
+    method: 'GET',
+    headers: {
+      Authorization: 'Token token=' + data.token
+    }
+  })
+}
+const showApiGame = function (data) {
+  return $.ajax({
+    url: config.apiOrigin + '/api-games/' + data,
+    method: 'GET',
+    headers: {
+      Authorization: 'Token token=' + store.user.token
+    }
+  })
+}
+
 module.exports = {
   indexGames,
   showGame,
   postWantedGame,
   deleteWantedGame,
   indexWantedGames,
-  showWantedGame
+  showWantedGame,
+  indexApiGames,
+  showApiGame,
+  createGame
 }
