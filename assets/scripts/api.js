@@ -25,7 +25,21 @@ const showGame = function (data) {
   })
 }
 
+const createGame = function (data) {
+  console.log('createGame in api running')
+  console.log('data = ', data)
+  return $.ajax({
+    url: config.apiOrigin + '/games',
+    method: 'POST',
+    headers: {
+      Authorization: 'Token token=' + store.user.token
+    },
+    data
+  })
+}
+
 const postWantedGame = function (data) {
+  console.log('this is data', data)
   return $.ajax({
     url: config.apiOrigin + '/wanted_games',
     method: 'POST',
@@ -63,12 +77,13 @@ const showWantedGame = function (data) {
   })
 }
 
-const indexApiGames = function () {
+const indexApiGames = function (data) {
+  console.log('data in api = ', data.token)
   return $.ajax({
     url: config.apiOrigin + '/api-games',
     method: 'GET',
     headers: {
-      Authorization: 'Token token=' + store.user.token
+      Authorization: 'Token token=' + data.token
     }
   })
 }
@@ -90,5 +105,6 @@ module.exports = {
   indexWantedGames,
   showWantedGame,
   indexApiGames,
-  showApiGame
+  showApiGame,
+  createGame
 }

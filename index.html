@@ -100,9 +100,19 @@
     <div id="content" class="content not-signed-in">
     </div>
   </div>
-
-  <table id="table_id" class="display table table-striped table-bordered" width="100%" data-page-length="10" data-order="[[ 1, &quot;asc&quot; ]]">
-    <thead>
+  <form id='create-game'>
+  <fieldset>
+      <input id='game-name' type="hidden" name="game[game_name]">
+      <input id='api-id' type="hidden" name="game[api_id]">
+      <input id='release-date' type="hidden" name="game[release_date]">
+      <input id='platform' type="hidden" name="game[platform]" value="playstation">
+      <button type="submit" name="add-to-games">Add to games</button>
+  </fieldset>
+</form>
+  <input id="delete" type="hidden" name="api_id" value="">
+  <button id='delete-button'type="button" value="delete button" name="delete-button">Delete</button>
+  <table id="table_id" class="display table table-striped table-bordered clear-input" width="100%" data-page-length="10" data-order="[[ 1, &quot;asc&quot; ]]">
+    <thead class='hide-table'>
         <tr>
             <th class='index-api'>Name</th>
             <th class='index-api'>Release Date</th>
@@ -111,7 +121,7 @@
         </tr>
     </thead>
 
-    <tfoot>
+    <tfoot class='hide-table'>
       <tr>
           <th class='index-api'>Name</th>
           <th class='index-api'>Release Date</th>
@@ -120,7 +130,7 @@
     </tfoot>
 </table>
 
-  <table id="show_table_id" class="display table table-striped table-bordered" width="100%" data-page-length="10" data-order="[[ 1, &quot;asc&quot; ]]">
+  <table id="show_table_id" class="display table table-striped table-bordered clear-input" width="100%" data-page-length="10" data-order="[[ 1, &quot;asc&quot; ]]">
     <thead>
         <tr>
             <th class='show_table-api'>Name</th>

@@ -63,6 +63,12 @@ const signOutSuccess = () => {
   $('.signIn-error').text('')
   $('.clear-input').val('')
 }
+const createGameSuccess = (data) => console.log('data.id ', data)
+  // return data
+  // store.games = data.games
+const createGameFailure = (error) => {
+  console.log(error)
+}
 
 const indexGamesSuccess = (data) => {
   $('.content').html('')
@@ -112,17 +118,16 @@ const indexApiGamesSuccess = (data) => {
   for (let i = 0; i < data.length; i++) {
     games.push(data[i])
   }
-  games.forEach(function (element) {
-    let epochDate = element.first_release_date
-    const date = new Date(epochDate)
-    epochDate = date.toDateString()
-    return
-  })
   // console.log('data ', data)
   // console.log('games', games)
   $('#table_id').DataTable({
     data: data,
     rowId: 'id',
+    retrieve: true,
+    select: true,
+    buttons: [
+      'selectedSingle'
+    ],
     columns: [
     {data: 'name'},
     {data: 'first_release_date'},
@@ -139,22 +144,45 @@ const indexApiGamesSuccess = (data) => {
       $(this).addClass('selected')
     }
   })
-  // $('#button').click(function() {
-  //   table.row('.selected').remove().draw()
-  // })
-  const showGamesHTML = showGamesTemplate({
-    game: games
+  $('#table_id tbody').on('click', 'tr', function () {
+    const game = table.row(this).data()
+      let epochDate = game.first_release_date
+      const date = new Date(epochDate)
+      const releaseDate = date.toDateString()
+    $('#game-name').val(game.name)
+    $('#release-date').val(releaseDate)
+    $('#api-id').val(game.id)
   })
-  $('#table_id').append(showGamesHTML)
-  store.game = games
-  console.log('store.games ', store.games)
-}
-const indexApiGamesFailure = (error) => console.log(error)
 
+  $('#delete-button').click(function () {
+    table.row('.selected').remove().draw()
+  })
+  // const showGamesHTML = showGamesTemplate({
+  //   game: games
+  // })
+  // $('#table_id').append(showGamesHTML)
+  // store.game = games
+  // console.log('store.games ', store.games)
+}
+const indexApiGamesFailure = (data, error) => {
+  console.log(error)
+  console.log(data)
+}
 const showApiGameSuccess = (data) => {
-  $('#show_table_id').DataTable({
+  const games = []
+  for (let i = 0; i < data.length; i++) {
+    games.push(data[i])
+  }
+  // games.forEach(function (element) {
+  //   let epochDate = element.first_release_date
+  //   const date = new Date(epochDate)
+  //   epochDate = date.toDateString()
+  //   return
+  // })
+('#show_table_id').DataTable({
     data: data,
     rowId: 'id',
+    retrieve: true,
     columns: [
     { data: 'name' },
     { data: 'first_release_date' },
@@ -165,9 +193,17 @@ const showApiGameSuccess = (data) => {
     {data: 'id'}
     ]
   })
+  // const showGamesHTML = showGamesTemplate({
+  //   game: games
+  // })
+  // $('#table_id').append(showGamesHTML)
+  // store.game = games
+  // console.log('store.games ', store.games)
 }
 
 module.exports = {
+  createGameSuccess,
+  createGameFailure,
   signUpSuccess,
   signUpFailure,
   signInSuccess,
