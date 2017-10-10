@@ -1,9 +1,10 @@
 const store = require('./store')
 const showGamesTemplate = require('./templates/games.hbs')
 const showWantedGamesTemplate = require('./templates/wanted-games.hbs')
-const showApiGamesTemplate = require('./templates/api-games.hbs')
+// const showApiGamesTemplate = require('./templates/api-games.hbs')
 const $ = require('jquery')
 const dt = require('datatables.net')
+const config = require('./config')
 const inputValue = (target) => $(target).val()
 
 const signUpSuccess = (data) => {
@@ -63,14 +64,46 @@ const signOutSuccess = () => {
   $('.signIn-error').text('')
   $('.clear-input').val('')
 }
-const createGameSuccess = (data) => console.log('data.id ', data)
-  // return data
+const createGameSuccess = function (gameId) {
+  console.log('gameId ', gameId)
+  // After successful creation of a game the game
+  // must be added to the wanted_games list
+  // data is defined here to format the data for the api
+  const data = {
+    wanted_game: {
+      game_id: gameId
+    }
+  }
+  return data
+}
   // store.games = data.games
 const createGameFailure = (error) => {
   console.log(error)
 }
 
 const indexGamesSuccess = (data) => {
+  // const games = []
+  // for (let i = 0; i < data.length; i++) {
+  //   games.push(data[i])
+  // }
+  console.log('this is data ', data)
+  $('#show_table_id').DataTable({
+    ajax: {
+      url: config.apiOrigin + '/games',
+      dataSrc: 'games'
+    },
+    rowId: 'id',
+    retrieve: true,
+    columns: [
+      { data: 'game_name' },
+      { data: 'release_date' },
+      { data: 'id' }
+    ]
+  })
+  // { data: 'popularity' },
+  // { data: 'total_rating' },
+  // { data: 'summary' },
+  // { data: 'storyline' },
   $('.content').html('')
   const showGamesHTML = showGamesTemplate({
     games: data.games
@@ -146,9 +179,9 @@ const indexApiGamesSuccess = (data) => {
   })
   $('#table_id tbody').on('click', 'tr', function () {
     const game = table.row(this).data()
-      let epochDate = game.first_release_date
-      const date = new Date(epochDate)
-      const releaseDate = date.toDateString()
+    const epochDate = game.first_release_date
+    const date = new Date(epochDate)
+    const releaseDate = date.toDateString()
     $('#game-name').val(game.name)
     $('#release-date').val(releaseDate)
     $('#api-id').val(game.id)
@@ -179,20 +212,6 @@ const showApiGameSuccess = (data) => {
   //   epochDate = date.toDateString()
   //   return
   // })
-('#show_table_id').DataTable({
-    data: data,
-    rowId: 'id',
-    retrieve: true,
-    columns: [
-    { data: 'name' },
-    { data: 'first_release_date' },
-    { data: 'popularity' },
-    // { data: 'total_rating' },
-    { data: 'summary' },
-    // { data: 'storyline' },
-    {data: 'id'}
-    ]
-  })
   // const showGamesHTML = showGamesTemplate({
   //   game: games
   // })

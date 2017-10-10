@@ -100,6 +100,7 @@
     <div id="content" class="content not-signed-in">
     </div>
   </div>
+
   <form id='create-game'>
   <fieldset>
       <input id='game-name' type="hidden" name="game[game_name]">
@@ -109,8 +110,10 @@
       <button type="submit" name="add-to-games">Add to games</button>
   </fieldset>
 </form>
+
   <input id="delete" type="hidden" name="api_id" value="">
   <button id='delete-button'type="button" value="delete button" name="delete-button">Delete</button>
+
   <table id="table_id" class="display table table-striped table-bordered clear-input" width="100%" data-page-length="10" data-order="[[ 1, &quot;asc&quot; ]]">
     <thead class='hide-table'>
         <tr>
@@ -131,25 +134,25 @@
 </table>
 
   <table id="show_table_id" class="display table table-striped table-bordered clear-input" width="100%" data-page-length="10" data-order="[[ 1, &quot;asc&quot; ]]">
-    <thead>
+    <thead class='hide-table'>
         <tr>
             <th class='show_table-api'>Name</th>
             <th class='show_table-api'>Release Date</th>
-            <th class='show_table-api'>popularity</th>
+            <!-- <th class='show_table-api'>popularity</th> -->
             <!-- <th class='show_table-api'>rating</th> -->
-            <th class='show_table-api'>summary</th>
+            <!-- <th class='show_table-api'>summary</th> -->
             <!-- <th class='show_table-api'>storyline> -->
             <th class='show_table-api'>ID</th>
         </tr>
     </thead>
 
-    <tfoot>
+    <tfoot class="hide-table">
       <tr>
           <th class='show_table-api'>Name</th>
           <th class='show_table-api'>Release Date</th>
-          <th class='show_table-api'>popularity</th>
+          <!-- <th class='show_table-api'>popularity</th> -->
           <!-- <th class='show_table-api'>rating</th> -->
-          <th class='show_table-api'>summary</th>
+          <!-- <th class='show_table-api'>summary</th> -->
           <!-- <th class='show_table-api'>storyline> -->
           <th class='show_table-api'>ID</th>
 

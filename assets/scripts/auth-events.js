@@ -44,7 +44,7 @@ const onSignIn = function (event) {
     return data
   })
   .then(ui.indexApiGamesSuccess)
-    .catch(ui.indexApiGamesFailure)
+  .catch(ui.indexApiGamesFailure)
 }
 
 const onChangePassword = function (event) {

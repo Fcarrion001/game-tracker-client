@@ -5,9 +5,9 @@ const $ = require('jquery')
 const dt = require('datatables.net')
 const store = require('./store')
 const addHandlers = () => {
-  $(document).ready(function() {
-    let t = $('#show_table_id').DataTable()
-  })
+  // $(document).ready(function() {
+  //   let t = $('#show_table_id').DataTable()
+  // })
   $('#index-games').on('submit', onIndexGames)
   $('#show-game').on('submit', onShowGame)
   $('#index-wanted-games').on('submit', onIndexWantedGames)
@@ -23,13 +23,19 @@ const onCreateGame = function (event) {
   const data = getFormFields(this)
   api.createGame(data)
   .then((data) => {
-    console.log('this is store ', data)
+    console.log('this is data ', data)
     return data
   })
-  .then((data) => api.postWantedGame(data.game.id))
+  .then((data) => ui.createGameSuccess(data.game.id))
+  .then((data) => {
+    console.log('this is data after createGameSuccess ', data)
+    return data
+  })
+  .then((data) => api.postWantedGame(data))
   .then(ui.postWantedGameSuccess)
     // .then((data) => ui.createGameSuccess(data))
     .catch(ui.createGamesFailure)
+    .then()
 }
 const onIndexGames = function (event) {
   console.log('it works here')
@@ -105,7 +111,6 @@ const onShowApiGame = function (event) {
     .then(ui.showApiGameSuccess)
     .catch(ui.showApiGameFailure)
 }
-
 // const keys = [1, 'playstation', 2, 'xbox']
 // const convert = function (elem) {
 //   for (let i = 0; i < keys.length; i++) {
