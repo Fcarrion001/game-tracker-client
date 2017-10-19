@@ -4,6 +4,8 @@ const ui = require('./ui')
 const $ = require('jquery')
 const dt = require('datatables.net')
 const store = require('./store')
+const config = require('./config')
+
 const addHandlers = () => {
   // $(document).ready(function() {
   //   let t = $('#show_table_id').DataTable()
@@ -16,14 +18,34 @@ const addHandlers = () => {
   $('.content').on('submit', '#delete-wanted-game', onDeleteWantedGame)
   $('#table_id').on('click', 'tbody', ui.indexApiGamesSuccess)
   $('#create-game').on('submit', onCreateGame)
+  $(document).ready(indexGames)
+  $(document).ready(hideTables)
 }
+
+const indexGames = function () {
+  $('#show_table_id').DataTable({
+    ajax: {
+      url: config.apiOrigin + '/games',
+      dataSrc: 'games'
+    },
+    rowId: 'id',
+    retrieve: true,
+    columns: [
+      { data: 'game_name' },
+      { data: 'release_date' },
+      { data: 'id' }
+    ]
+  })
+}
+
 const onCreateGame = function (event) {
-  console.log('it works here')
   event.preventDefault()
   const data = getFormFields(this)
+  const apiId = data.game.api_id
+  console.log('this is apiId ', apiId)
+  console.log('this is data before its sent to the api ', data)
   api.createGame(data)
   .then((data) => {
-    console.log('this is data ', data)
     return data
   })
   .then((data) => ui.createGameSuccess(data.game.id))
@@ -110,6 +132,16 @@ const onShowApiGame = function (event) {
     })
     .then(ui.showApiGameSuccess)
     .catch(ui.showApiGameFailure)
+}
+
+const hideTables = () => {
+  $('#table_id').hide()
+  $('#show_table_id').hide()
+  $('#show_table_id_info').hide()
+  $('#table_id_info').hide()
+  $('label').hide()
+  $('a').hide()
+  $('#show_table_id_paginate').hide()
 }
 // const keys = [1, 'playstation', 2, 'xbox']
 // const convert = function (elem) {

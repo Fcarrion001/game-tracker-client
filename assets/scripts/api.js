@@ -5,15 +5,15 @@ const config = require('./config')
 const $ = require('jquery')
 const dt = require('datatables.net')
 // ajax request GET to games
-const indexGames = function () {
-  return $.ajax({
-    url: config.apiOrigin + '/games',
-    method: 'GET',
-    headers: {
-      Authorization: 'Token token=' + store.user.token
-    }
-  })
-}
+// const indexGames = function () {
+//   return $.ajax({
+//     url: config.apiOrigin + '/games',
+//     method: 'GET',
+//     headers: {
+//       Authorization: 'Token token=' + store.user.token
+//     }
+//   })
+// }
 
 const showGame = function (data) {
   return $.ajax({
@@ -87,24 +87,24 @@ const indexApiGames = function (data) {
     }
   })
 }
-const showApiGame = function (data) {
-  return $.ajax({
-    url: config.apiOrigin + '/api-games/' + data,
-    method: 'GET',
-    headers: {
-      Authorization: 'Token token=' + store.user.token
-    }
-  })
-}
+// const showApiGame = function (data) {
+//   return $.ajax({
+//     url: config.apiOrigin + '/api-games/' + data,
+//     method: 'GET',
+//     headers: {
+//       Authorization: 'Token token=' + store.user.token
+//     }
+//   })
+// }
 
 module.exports = {
-  indexGames,
+  // indexGames,
   showGame,
   postWantedGame,
   deleteWantedGame,
   indexWantedGames,
   showWantedGame,
   indexApiGames,
-  showApiGame,
+  // showApiGame,
   createGame
 }

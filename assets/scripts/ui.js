@@ -36,6 +36,12 @@ const signInSuccess = (data) => {
   $('#sign-up').hide()
   // make sure only the most recent error is being displayed
   $('.signUp-failure').text('')
+  $('label').show()
+  $('#table_id_info').show()
+  $('#show_table_id_info').show()
+  $('a').show()
+  $('#show_table_id').show()
+  $('#table_id').show()
 }
 
 const signInFailure = () => {
@@ -63,11 +69,17 @@ const signOutSuccess = () => {
   $('.signUp-error').text('')
   $('.signIn-error').text('')
   $('.clear-input').val('')
+  $('#table_id').hide()
+  $('#show_table_id').hide()
+  $('label').hide()
+  $('#table_id_info').hide()
+  $('#show_table_id_info').hide()
+  $('a').hide()
 }
 const createGameSuccess = function (gameId) {
   console.log('gameId ', gameId)
-  // After successful creation of a game the game
-  // must be added to the wanted_games list
+  // After successful creation of a game, the game
+  // must be added to the wanted_games list.
   // data is defined here to format the data for the api
   const data = {
     wanted_game: {
@@ -82,35 +94,37 @@ const createGameFailure = (error) => {
 }
 
 const indexGamesSuccess = (data) => {
+  // fade in games table on success
+  $('#show_table_id').fadeIn()
   // const games = []
   // for (let i = 0; i < data.length; i++) {
   //   games.push(data[i])
   // }
-  console.log('this is data ', data)
-  $('#show_table_id').DataTable({
-    ajax: {
-      url: config.apiOrigin + '/games',
-      dataSrc: 'games'
-    },
-    rowId: 'id',
-    retrieve: true,
-    columns: [
-      { data: 'game_name' },
-      { data: 'release_date' },
-      { data: 'id' }
-    ]
-  })
+  // console.log('this is data ', data)
+  // $('#show_table_id').DataTable({
+  //   ajax: {
+  //     url: config.apiOrigin + '/games',
+  //     dataSrc: 'games'
+  //   },
+  //   rowId: 'id',
+  //   retrieve: true,
+  //   columns: [
+  //     { data: 'game_name' },
+  //     { data: 'release_date' },
+  //     { data: 'id' }
+  //   ]
+  // })
   // { data: 'popularity' },
   // { data: 'total_rating' },
   // { data: 'summary' },
   // { data: 'storyline' },
-  $('.content').html('')
-  const showGamesHTML = showGamesTemplate({
-    games: data.games
-  })
-  $('.content').append(showGamesHTML)
-  store.games = data.games
-  console.log('store.game = ', store.games)
+  // $('.content').html('')
+  // const showGamesHTML = showGamesTemplate({
+  //   games: data.games
+  // })
+  // $('.content').append(showGamesHTML)
+  // store.games = data.games
+  // console.log('store.game = ', store.games)
 }
 
 const indexGamesFailure = (error) => console.log(error)
@@ -147,6 +161,10 @@ const showWantedGameSuccess = (data) => console.log(data)
 const showWantedGameFailure = (error) => console.log(error)
 
 const indexApiGamesSuccess = (data) => {
+  console.log('data at success ', data)
+// fade in the table on success
+  $('#table_id').fadeIn()
+// push data into an array named games
   const games = []
   for (let i = 0; i < data.length; i++) {
     games.push(data[i])
@@ -179,11 +197,11 @@ const indexApiGamesSuccess = (data) => {
   })
   $('#table_id tbody').on('click', 'tr', function () {
     const game = table.row(this).data()
-    const epochDate = game.first_release_date
-    const date = new Date(epochDate)
-    const releaseDate = date.toDateString()
+    // const epochDate = game.first_release_date
+    // const date = new Date(epochDate)
+    // const releaseDate = date.toDateString()
     $('#game-name').val(game.name)
-    $('#release-date').val(releaseDate)
+    $('#release-date').val(game.first_release_date)
     $('#api-id').val(game.id)
   })
 

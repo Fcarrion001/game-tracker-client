@@ -43,6 +43,13 @@ const onSignIn = function (event) {
     console.log('data before indexsuccess ', data)
     return data
   })
+  .then((data) => {
+  // convert epoch date format to a comprehensible form
+    data.map(function (elem) {
+      elem.first_release_date = (new Date(elem.first_release_date).toDateString())
+    })
+    return data
+  })
   .then(ui.indexApiGamesSuccess)
   .catch(ui.indexApiGamesFailure)
 }
