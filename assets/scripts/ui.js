@@ -6,6 +6,40 @@ const $ = require('jquery')
 const dt = require('datatables.net')
 const config = require('./config')
 const inputValue = (target) => $(target).val()
+// function that takes a table id as a parameter to active the class 'selected'
+// on clicked rows
+const classActivator = function (tableId) {
+  const table = $('#' + tableId).DataTable()
+
+  $('#' + tableId + ' tbody').on('click', 'tr', function () {
+    if ($(this).hasClass('selected')) {
+      $(this).removeClass('selected')
+    } else {
+      table.$('tr.selected').removeClass('selected')
+      $(this).addClass('selected')
+    }
+  })
+  $('#' + tableId + ' tbody').on('click', 'tr', function () {
+    const game = table.row('.selected').data()
+    $('#game-name').val(game.name)
+    $('#release-date').val(game.first_release_date)
+    $('#api-id').val(game.id)
+    $('#summary').val(game.summary)
+    $('#storyline').val(game.storyline)
+    $('#url').val(game.url)
+    game.screenshots === undefined ? $('#screenshot').val('https:' + game.screenshot) : $('#screenshot').val('https:' + game.screenshots[0].url)
+    // function findGame (apiGame) {
+    //   return apiGame.id === game.id
+    // }
+    // console.log(this.find(findGame))
+    // console.log(this.games)
+    // console.log(this)
+  })
+
+  $('#delete-button').click(function () {
+    table.row('.selected').remove().draw()
+  })
+}
 
 const signUpSuccess = (data) => {
   store.user = data.user
@@ -42,6 +76,7 @@ const signInSuccess = (data) => {
   $('a').show()
   $('#show_table_id').show()
   $('#table_id').show()
+  $('#show_table_id_paginate').show()
 }
 
 const signInFailure = () => {
@@ -76,11 +111,11 @@ const signOutSuccess = () => {
   $('#show_table_id_info').hide()
   $('a').hide()
 }
+// data is defined here to format the data for the api
 const createGameSuccess = function (gameId) {
   console.log('gameId ', gameId)
   // After successful creation of a game, the game
   // must be added to the wanted_games list.
-  // data is defined here to format the data for the api
   const data = {
     wanted_game: {
       game_id: gameId
@@ -96,6 +131,7 @@ const createGameFailure = (error) => {
 const indexGamesSuccess = (data) => {
   // fade in games table on success
   $('#show_table_id').fadeIn()
+  classActivator('show_table_id')
   // const games = []
   // for (let i = 0; i < data.length; i++) {
   //   games.push(data[i])
@@ -164,13 +200,11 @@ const indexApiGamesSuccess = (data) => {
   console.log('data at success ', data)
 // fade in the table on success
   $('#table_id').fadeIn()
-// push data into an array named games
+// push data into an array named games for temporary storage
   const games = []
   for (let i = 0; i < data.length; i++) {
     games.push(data[i])
   }
-  // console.log('data ', data)
-  // console.log('games', games)
   $('#table_id').DataTable({
     data: data,
     rowId: 'id',
@@ -184,37 +218,16 @@ const indexApiGamesSuccess = (data) => {
     {data: 'first_release_date'},
     {data: 'id'}
     ]
-  })
-  const table = $('#table_id').DataTable()
-
-  $('#table_id tbody').on('click', 'tr', function () {
-    if ($(this).hasClass('selected')) {
-      $(this).removeClass('selected')
-    } else {
-      table.$('tr.selected').removeClass('selected')
-      $(this).addClass('selected')
-    }
-  })
-  $('#table_id tbody').on('click', 'tr', function () {
-    const game = table.row(this).data()
-    // const epochDate = game.first_release_date
-    // const date = new Date(epochDate)
-    // const releaseDate = date.toDateString()
-    $('#game-name').val(game.name)
-    $('#release-date').val(game.first_release_date)
-    $('#api-id').val(game.id)
-  })
-
-  $('#delete-button').click(function () {
-    table.row('.selected').remove().draw()
-  })
   // const showGamesHTML = showGamesTemplate({
   //   game: games
   // })
   // $('#table_id').append(showGamesHTML)
   // store.game = games
   // console.log('store.games ', store.games)
+  })
+  classActivator('table_id')
 }
+
 const indexApiGamesFailure = (data, error) => {
   console.log(error)
   console.log(data)
@@ -224,18 +237,6 @@ const showApiGameSuccess = (data) => {
   for (let i = 0; i < data.length; i++) {
     games.push(data[i])
   }
-  // games.forEach(function (element) {
-  //   let epochDate = element.first_release_date
-  //   const date = new Date(epochDate)
-  //   epochDate = date.toDateString()
-  //   return
-  // })
-  // const showGamesHTML = showGamesTemplate({
-  //   game: games
-  // })
-  // $('#table_id').append(showGamesHTML)
-  // store.game = games
-  // console.log('store.games ', store.games)
 }
 
 module.exports = {

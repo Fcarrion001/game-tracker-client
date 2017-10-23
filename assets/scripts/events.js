@@ -36,6 +36,24 @@ const indexGames = function () {
       { data: 'id' }
     ]
   })
+  ui.indexGamesSuccess()
+  // const gamesTable = $('#show_table_id').DataTable()
+  //
+  // $('#show_table_id tbody').on('click', 'tr', function () {
+  //   if ($(this).hasClass('selected')) {
+  //     $(this).removeClass('selected')
+  //   } else {
+  //     gamesTable.$('tr.selected').removeClass('selected')
+  //     $(this).addClass('selected')
+  //   }
+  // })
+  // $('#show_table_id tbody').on('click', 'tr', function () {
+  //   const game = gamesTable.row(this).data()
+  //   $('#game-name').val(game.name)
+  //   $('#release-date').val(game.first_release_date)
+  //   $('#api-id').val(game.id)
+  //   console.log('this is game ', game)
+  // })
 }
 
 const onCreateGame = function (event) {
