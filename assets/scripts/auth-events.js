@@ -38,6 +38,7 @@ const onSignIn = function (event) {
     return data
   })
   .then((data) => ui.signInSuccess(data))
+  // GET request to populate apiGames table
   .then((data) => api.indexApiGames(store.user))
   .then((data) => {
     console.log('data before indexsuccess ', data)

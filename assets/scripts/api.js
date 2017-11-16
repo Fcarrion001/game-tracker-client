@@ -87,15 +87,15 @@ const indexApiGames = function (data) {
     }
   })
 }
-// const showApiGame = function (data) {
-//   return $.ajax({
-//     url: config.apiOrigin + '/api-games/' + data,
-//     method: 'GET',
-//     headers: {
-//       Authorization: 'Token token=' + store.user.token
-//     }
-//   })
-// }
+const showApiGame = function (data) {
+  return $.ajax({
+    url: config.apiOrigin + '/api-games/' + data,
+    method: 'GET',
+    headers: {
+      Authorization: 'Token token=' + store.user.token
+    }
+  })
+}
 
 module.exports = {
   // indexGames,
@@ -105,6 +105,6 @@ module.exports = {
   indexWantedGames,
   showWantedGame,
   indexApiGames,
-  // showApiGame,
+  showApiGame,
   createGame
 }

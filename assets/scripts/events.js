@@ -66,7 +66,7 @@ const onCreateGame = function (event) {
   .then((data) => {
     return data
   })
-  .then((data) => ui.createGameSuccess(data.game.id))
+  .then((data) => ui.createGameSuccess(data))
   .then((data) => {
     console.log('this is data after createGameSuccess ', data)
     return data
@@ -74,9 +74,9 @@ const onCreateGame = function (event) {
   .then((data) => api.postWantedGame(data))
   .then(ui.postWantedGameSuccess)
     // .then((data) => ui.createGameSuccess(data))
-    .catch(ui.createGamesFailure)
-    .then()
+  .catch(ui.createGamesFailure)
 }
+
 const onIndexGames = function (event) {
   console.log('it works here')
   event.preventDefault()
@@ -155,11 +155,13 @@ const onShowApiGame = function (event) {
 const hideTables = () => {
   $('#table_id').hide()
   $('#show_table_id').hide()
+  $('#wanted_table_id').hide()
   $('#show_table_id_info').hide()
   $('#table_id_info').hide()
   $('label').hide()
   $('a').hide()
   $('#show_table_id_paginate').hide()
+  $('.not-signed-in').hide()
 }
 // const keys = [1, 'playstation', 2, 'xbox']
 // const convert = function (elem) {

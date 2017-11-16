@@ -20,7 +20,7 @@ const classActivator = function (tableId) {
     }
   })
   $('#' + tableId + ' tbody').on('click', 'tr', function () {
-    const game = table.row('.selected').data()
+    const game = table.row(this).data()
     $('#game-name').val(game.name)
     $('#release-date').val(game.first_release_date)
     $('#api-id').val(game.id)
@@ -39,6 +39,13 @@ const classActivator = function (tableId) {
   $('#delete-button').click(function () {
     table.row('.selected').remove().draw()
   })
+}
+
+// dynamically add new game to table by clearing the
+// table and making a new ajax call.
+const addRow = (tableId) => {
+  const table = $('#' + tableId).DataTable()
+  table.clear().ajax.reload()
 }
 
 const signUpSuccess = (data) => {
@@ -73,10 +80,30 @@ const signInSuccess = (data) => {
   $('label').show()
   $('#table_id_info').show()
   $('#show_table_id_info').show()
+  $('#wanted_table_id_info').show()
   $('a').show()
   $('#show_table_id').show()
   $('#table_id').show()
+  $('#wanted_table_id').show()
   $('#show_table_id_paginate').show()
+  $('wanted_table_id-paginate').show()
+// make Get request to populate user's wishlist dataTable
+  $('#wanted_table_id').DataTable({
+    ajax: {
+      url: config.apiOrigin + '/wanted_games',
+      dataSrc: 'wanted_games',
+      headers: {
+        Authorization: 'Token token=' + store.user.token
+      }
+    },
+    rowId: 'id',
+    retrieve: true,
+    columns: [
+      { data: 'game.id' },
+      { data: 'game.game_name' },
+      { data: 'game.release_date' }
+    ]
+  })
 }
 
 const signInFailure = () => {
@@ -106,19 +133,38 @@ const signOutSuccess = () => {
   $('.clear-input').val('')
   $('#table_id').hide()
   $('#show_table_id').hide()
+  $('#wanted_table_id').hide()
   $('label').hide()
   $('#table_id_info').hide()
   $('#show_table_id_info').hide()
+  $('#wanted_table_id_info').hide()
   $('a').hide()
 }
 // data is defined here to format the data for the api
-const createGameSuccess = function (gameId) {
-  console.log('gameId ', gameId)
+const createGameSuccess = function (game) {
+  console.log('game ', game.game)
+  console.log('game.id ', game.game.id)
+  // addRow(show_table_id)
+  const table = $('#show_table_id').DataTable()
+  table.clear().ajax.reload()
+  // $('#show_table_id').DataTable({
+  //   ajax: {
+  //     url: config.apiOrigin + '/games',
+  //     dataSrc: 'games'
+  //   },
+  //   rowId: 'id',
+  //   retrieve: true,
+  //   columns: [
+  //     { data: 'id' },
+  //     { data: 'game_name' },
+  //     { data: 'release_date' }
+  //   ]
+  // })
   // After successful creation of a game, the game
   // must be added to the wanted_games list.
   const data = {
     wanted_game: {
-      game_id: gameId
+      game_id: game.game.id
     }
   }
   return data
@@ -173,6 +219,9 @@ const showGameFailure = (error) => console.log(error)
 const postWantedGameSuccess = (data) => {
   store.game_id = data.wanted_game.game_id
   console.log(data)
+  // addRow(wanted_table_id)
+  const table = $('#wanted_table_id').DataTable()
+  table.clear().ajax.reload()
 }
 const postWantedGameFailure = (error) => console.log(error)
 
@@ -181,14 +230,15 @@ const deleteWantedGameSuccess = (data) => console.log(data)
 const deleteWantedGameFailure = (error) => console.log(error)
 
 const indexWantedGamesSuccess = (data) => {
-  $('.content').html('')
-  console.log(data)
-  const showWantedGamesHTML = showWantedGamesTemplate({
-    wanted_games: data.wanted_games
-  })
-  $('.content').append(showWantedGamesHTML)
-  store.wanted_games = data.wanted_games
-  console.log('store.game = ', store.wanted_games)
+  // $('.content').html('')
+  //
+  // const showWantedGamesHTML = showWantedGamesTemplate({
+  //   wanted_games: data.wanted_games
+  // })
+  // $('.content').append(showWantedGamesHTML)
+  // store.wanted_games = data.wanted_games
+  // console.log('store.game = ', store.wanted_games)
+  classActivator('wanted_table_id')
 }
 const indexWantedGamesFailure = (error) => console.log(error)
 
@@ -210,9 +260,6 @@ const indexApiGamesSuccess = (data) => {
     rowId: 'id',
     retrieve: true,
     select: true,
-    buttons: [
-      'selectedSingle'
-    ],
     columns: [
     {data: 'name'},
     {data: 'first_release_date'},
