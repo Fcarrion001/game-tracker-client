@@ -17,6 +17,11 @@ const addHandlers = () => {
   $('.content').on('submit', '#post-wanted-game', onPostWantedGame)
   $('.content').on('submit', '#delete-wanted-game', onDeleteWantedGame)
   $('#table_id').on('click', 'tbody', ui.indexApiGamesSuccess)
+  // using show success callbacks to trigger handlebars when a row
+  // is double clicked
+  $('#table_id').on('dblclick', 'tbody', ui.showApiGameSuccess)
+  $('#wanted_table_id').on('dblclick', 'tbody', ui.showWantedGameSuccess)
+  $('#show_table_id').on('dblclick', 'tbody', ui.showGameSuccess)
   $('#create-game').on('submit', onCreateGame)
   $(document).ready(indexGames)
   $(document).ready(hideTables)
@@ -60,6 +65,7 @@ const onCreateGame = function (event) {
   event.preventDefault()
   const data = getFormFields(this)
   const apiId = data.game.api_id
+  console.log('this is event.target ', $(event.target))
   console.log('this is apiId ', apiId)
   console.log('this is data before its sent to the api ', data)
   api.createGame(data)

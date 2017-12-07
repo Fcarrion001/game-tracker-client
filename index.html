@@ -111,6 +111,7 @@
       <input id='summary' type="hidden" name="game[summary]">
       <input id='url' type="hidden" name="game[url]">
       <input id='screenshot' type="hidden" name="game[screenshot]">
+      <input id='cloudinary_id' type="hidden" name="game[cloudinary_id]">
 
       <button type="submit" name="add-to-games">Add to games</button>
   </fieldset>
@@ -169,20 +170,20 @@
 <table id="wanted_table_id" class="display table table-striped table-bordered clear-input hide-table" width="100%" data-page-length="10" data-order="[[ 1, &quot;asc&quot; ]]">
   <thead>
       <tr>
+        <th class='index-wanted'>ID</th>
           <th class='index-wanted'>Name</th>
           <th class='index-wanted'>Release Date</th>
           <!-- <th class='index-wanted'>Platform</th> -->
-          <th class='index-wanted'>ID</th>
 
       </tr>
   </thead>
 
   <tfoot>
     <tr>
+      <th class='index-wanted'>ID</th>
         <th class='index-wanted'>Name</th>
         <th class='index-wanted'>Release Date</th>
         <!-- <th class='index-wanted'>Platform</th> -->
-        <th class='index-wanted'>ID</th>
     </tr>
   </tfoot>
 </table>

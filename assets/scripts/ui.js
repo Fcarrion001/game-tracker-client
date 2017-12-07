@@ -1,7 +1,7 @@
 const store = require('./store')
 const showGamesTemplate = require('./templates/games.hbs')
-const showWantedGamesTemplate = require('./templates/wanted-games.hbs')
-// const showApiGamesTemplate = require('./templates/api-games.hbs')
+const showWantedGameTemplate = require('./templates/show-wanted-game.hbs')
+const showApiGamesTemplate = require('./templates/api-games.hbs')
 const $ = require('jquery')
 const dt = require('datatables.net')
 const config = require('./config')
@@ -20,25 +20,27 @@ const classActivator = function (tableId) {
     }
   })
   $('#' + tableId + ' tbody').on('click', 'tr', function () {
+    // retrieve data from selected row
     const game = table.row(this).data()
+    console.log('this is game ', game)
     $('#game-name').val(game.name)
     $('#release-date').val(game.first_release_date)
     $('#api-id').val(game.id)
     $('#summary').val(game.summary)
     $('#storyline').val(game.storyline)
     $('#url').val(game.url)
-    game.screenshots === undefined ? $('#screenshot').val('https:' + game.screenshot) : $('#screenshot').val('https:' + game.screenshots[0].url)
-    // function findGame (apiGame) {
-    //   return apiGame.id === game.id
-    // }
-    // console.log(this.find(findGame))
-    // console.log(this.games)
-    // console.log(this)
-  })
+    game.cover === undefined ? $('#cloudinary_id').val(game.cloudinary_id) : $('#cloudinary_id').val(game.cover.cloudinary_id)
+    game.cover === undefined ? $('#screenshot').val('https:' + game.cover) : $('#screenshot').val('https:' + game.cover.url)
+
+    store.game = game
+
+    console.log('this is store.game ', store.game)
+
 
   $('#delete-button').click(function () {
     table.row('.selected').remove().draw()
   })
+})
 }
 
 // dynamically add new game to table by clearing the
@@ -104,6 +106,7 @@ const signInSuccess = (data) => {
       { data: 'game.release_date' }
     ]
   })
+  classActivator('wanted_table_id')
 }
 
 const signInFailure = () => {
@@ -212,7 +215,11 @@ const indexGamesSuccess = (data) => {
 const indexGamesFailure = (error) => console.log(error)
 
 const showGameSuccess = (data) => {
-  console.log(data)
+  const showGamesHTML = showGamesTemplate({
+    game: store.game
+  })
+  $('.content').append(showGamesHTML)
+  console.log('store.game = ', store.games)
 }
 const showGameFailure = (error) => console.log(error)
 
@@ -230,19 +237,16 @@ const deleteWantedGameSuccess = (data) => console.log(data)
 const deleteWantedGameFailure = (error) => console.log(error)
 
 const indexWantedGamesSuccess = (data) => {
-  // $('.content').html('')
-  //
-  // const showWantedGamesHTML = showWantedGamesTemplate({
-  //   wanted_games: data.wanted_games
-  // })
-  // $('.content').append(showWantedGamesHTML)
-  // store.wanted_games = data.wanted_games
-  // console.log('store.game = ', store.wanted_games)
-  classActivator('wanted_table_id')
 }
 const indexWantedGamesFailure = (error) => console.log(error)
 
-const showWantedGameSuccess = (data) => console.log(data)
+const showWantedGameSuccess = (data) => {
+  const showWantedGameHTML = showWantedGameTemplate({
+    game: store.game
+  })
+  $('.content').append(showWantedGameHTML)
+  console.log('store.game = ', store.game)
+}
 
 const showWantedGameFailure = (error) => console.log(error)
 
@@ -279,11 +283,13 @@ const indexApiGamesFailure = (data, error) => {
   console.log(error)
   console.log(data)
 }
+
 const showApiGameSuccess = (data) => {
-  const games = []
-  for (let i = 0; i < data.length; i++) {
-    games.push(data[i])
-  }
+  const showApiGameHTML = showApiGamesTemplate({
+    game: store.game
+  })
+  $('.content').append(showApiGameHTML)
+  console.log('store.game = ', store.game)
 }
 
 module.exports = {

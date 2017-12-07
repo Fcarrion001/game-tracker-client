@@ -1,4 +1,4 @@
-<h4>Games Other People Want</h4>
+{{!-- <h4>Games Other People Want</h4>
 
  {{#each games as |game|}}
 <div class="col-xs-4 box">
@@ -19,4 +19,10 @@
     </form>
   </div>
 </div>
-{{/each}}
+{{/each}} --}}
+<h3>{{game.game_name}}</h3>
+<h5>Summary</h5>
+<p>{{game.summary}}</p>
+<h5>storyline</h5>
+<p>{{game.storyline}}</p>
+<img src="https://images.igdb.com/igdb/image/upload/t_cover_big/{{game.cloudinary_id}}.jpg" alt="screen shot">

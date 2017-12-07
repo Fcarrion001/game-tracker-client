@@ -1,13 +1,6 @@
-{{!--
-<div class="col-xs-4 box">
-  <div data-id="{{game.id}}">
-    <ul name='games' class='handlebars-fields'>
-    <h6>Name</h6>
-      <li>{{game.name}}</li>
-    <h6>Platform</h6>
-      <li>playstation</li>
-    <h6>Release Date</h6>
-      <li>{{first_release_date}}</li>
-    </ul>
-  </div>
-</div> --}}
+<h3>{{game.game_name}}</h3>
+<h5>Summary</h5>
+<p>{{game.summary}}</p>
+<h5>storyline</h5>
+<p>{{game.storyline}}</p>
+<img src="https://images.igdb.com/igdb/image/upload/t_cover_big/{{game.cover.cloudinary_id}}.jpg" alt="screen shot">
