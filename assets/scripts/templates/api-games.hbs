@@ -1,6 +1,31 @@
-<h3>{{game.game_name}}</h3>
+<h3>{{game.name}}</h3>
 <h5>Summary</h5>
-<p>{{game.summary}}</p>
+{{#if game.summary}}
+      <p>{{game.summary}}</p>
+    {{else}}
+      <p>No summary provided.</p>
+    {{/if}}
 <h5>storyline</h5>
-<p>{{game.storyline}}</p>
+{{#if game.storyline}}
+      <p>{{game.storyline}}</p>
+    {{else}}
+      <p>No storyline provided.</p>
+    {{/if}}
 <img src="https://images.igdb.com/igdb/image/upload/t_cover_big/{{game.cover.cloudinary_id}}.jpg" alt="screen shot">
+<form id='create-game'>
+<fieldset>
+    <input id='game-name' type="hidden" name="game[game_name]" value='{{game.name}}'>
+    <input id='api-id' type="hidden" name="game[api_id]" value='{{game.id}}'>
+    <input id='release-date' type="hidden" name="game[release_date]" value='{{game.first_release_date}}'>
+    <input id='platform' type="hidden" name="game[platform]" value="playstation">
+    <input id='storyline' type="hidden" name="game[storyline]" value='{{game.storyline}}'>
+    <input id='summary' type="hidden" name="game[summary]" value='{{game.summary}}'>
+    <input id='url' type="hidden" name="game[url]" value='{{game.url}}'>
+    <input id='screenshot' type="hidden" name="game[screenshot]" value='{{game.cover.url}}'>
+    <input id='cloudinary_id' type="hidden" name="game[cloudinary_id]" value='{{game.cover.cloudinary_id}}'>
+
+    <input type="submit" name="submit" value="add">
+</fieldset>
+</form>
+
+<button type="submit" class="back-btn" name="back-button">Back</button>

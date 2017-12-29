@@ -1,15 +1,11 @@
 'use strict'
-const showGamesTemplate = require('./templates/games.hbs')
-const showWantedGamesTemplate = require('./templates/wanted-games.hbs')
-const showApiGamesTemplate = require('./templates/api-games.hbs')
 const getFormFields = require('../../lib/get-form-fields')
 const authApi = require('./auth-api')
 const api = require('./api')
 const ui = require('./ui')
 const $ = require('jquery')
-const dt = require('datatables.net')
-const events = require('./events')
 const store = require('./store')
+
 const addHandlers = () => {
   $('#sign-up').on('submit', onSignUp)
   $('#sign-in').on('submit', onSignIn)
@@ -45,7 +41,7 @@ const onSignIn = function (event) {
     return data
   })
   .then((data) => {
-  // convert epoch date format to a comprehensible form
+  // convert epoch date format to a user-friendly format
     data.map(function (elem) {
       elem.first_release_date = (new Date(elem.first_release_date).toDateString())
     })
@@ -66,53 +62,51 @@ const onChangePassword = function (event) {
 const onSignOut = function (event) {
   const data = getFormFields(this)
   event.preventDefault()
-
   authApi.signOut(data)
     .then(ui.signOutSuccess)
 }
-const indexApiGamesSuccess = (data) => {
-  console.log('do we get here')
-  const games = []
-  for (let i = 0; i < data.length; i++) {
-    games.push(data[i])
-  }
-  games.forEach(function (element) {
-    let epochDate = element.first_release_date
-    const date = new Date(epochDate)
-    epochDate = date.toDateString()
-    return
-  })
-  // console.log('data ', data)
-  // console.log('games', games)
-  const table = $('#table_id').DataTable()
-  table({
-    data: data,
-    rowId: 'id',
-    columns: [
-    {data: 'name'},
-    {data: 'first_release_date'},
-    {data: 'id'}
-    ]
-  })
-
-  $('#table_id tbody').on('click', 'tr', function () {
-    if ($(this).hasClass('selected')) {
-      $(this).removeClass('selected')
-    } else {
-      table.$('tr.selected').removeClass('selected')
-      $(this).addClass('selected')
-    }
-  })
-  // $('#button').click(function() {
-  //   table.row('.selected').remove().draw()
-  // })
-  const showGamesHTML = showGamesTemplate({
-    game: games
-  })
-  $('#table_id').append(showGamesHTML)
-  store.game = games
-  console.log('store.games ', store.games)
-}
+// const indexApiGamesSuccess = (data) => {
+//   console.log('do we get here')
+//   const games = []
+//   for (let i = 0; i < data.length; i++) {
+//     games.push(data[i])
+//   }
+//   games.forEach(function (element) {
+//     let epochDate = element.first_release_date
+//     const date = new Date(epochDate)
+//     epochDate = date.toDateString()
+//     return
+//   })
+//   // console.log('data ', data)
+//   // console.log('games', games)
+//   const table = $('#table_id').DataTable()
+//   table({
+//     data: data,
+//     rowId: 'id',
+//     columns: [
+//     {data: 'name'},
+//     {data: 'first_release_date'},
+//     {data: 'id'}
+//     ]
+//   })
+//   $('#table_id tbody').on('click', 'tr', function () {
+//     if ($(this).hasClass('selected')) {
+//       $(this).removeClass('selected')
+//     } else {
+//       table.$('tr.selected').removeClass('selected')
+//       $(this).addClass('selected')
+//     }
+//   })
+//   $('#button').click(function() {
+//     table.row('.selected').remove().draw()
+//   })
+//   const showGamesHTML = showGamesTemplate({
+//     game: games
+//   })
+//   $('#table_id').append(showGamesHTML)
+//   store.game = games
+//   console.log('store.games ', store.games)
+// }
 module.exports = {
   addHandlers
 }

@@ -14,7 +14,8 @@
     <body class="container-fluid">
       <h1>Game Tracker</h1>
 
-      <p>Keep track of games coming out and see what other people are buzzing about</p>
+      <p>Keep track of games coming out, add them to your wishlist,and see what
+         other users have on their list</p>
 
   <div id='page-wrap'>
     <form id="sign-up">
@@ -52,7 +53,7 @@
       </fieldset>
     </form>
 
-    <form id="index-games">
+    <!-- <form id="index-games">
       <fieldset>
         <input type="submit" name="submit" value="List of Games">
       </fieldset>
@@ -95,9 +96,9 @@
       <fieldset>
         <input type="submit" name="submit" value="Api-Games">
       </fieldset>
-    </form>
+    </form> -->
 
-    <div id="content" class="content not-signed-in">
+    <div id="content" class="content">
     </div>
   </div>
 
@@ -113,12 +114,12 @@
       <input id='screenshot' type="hidden" name="game[screenshot]">
       <input id='cloudinary_id' type="hidden" name="game[cloudinary_id]">
 
-      <button type="submit" name="add-to-games">Add to games</button>
+      <button type="submit" class="not-signed-in" name="add-to-games">Add to games</button>
   </fieldset>
 </form>
 
-  <input id="delete" type="hidden" name="api_id" value="">
-  <button id='delete-button'type="button" value="delete button" name="delete-button">Delete</button>
+  <!-- <input id="delete" type="hidden" name="api_id" value="">
+  <button id='delete-button'type="button" value="delete button" name="delete-button">Delete</button> -->
 <h2 class="table-title not-signed-in">List Of Games</h2>
   <table id="table_id" class="display table table-striped table-bordered hide-table" width="100%" data-page-length="10" data-order="[[ 1, &quot;asc&quot; ]]">
     <thead>
