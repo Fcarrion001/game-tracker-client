@@ -21,7 +21,7 @@ const addHandlers = () => {
   $('.content').on('submit', '#create-game', onCreateGame)
   $('.content').on('click', '.back-btn', showTables)
   $(document).ready(indexGames)
-  $(document).ready(toggleTables)
+  $(document).ready(hideTables)
 }
 
 const indexGames = function () {
@@ -66,6 +66,7 @@ const onCreateGame = function (event) {
   })
   .then((data) => api.postWantedGame(data))
   .then(ui.postWantedGameSuccess)
+  .then(showTables)
   .catch(ui.createGamesFailure)
 }
 
@@ -73,7 +74,7 @@ const onCreateGame = function (event) {
 // as well as when they want to trigger a show on an individual game, or go back
 // to the tables from a show.
 // let tablesHidden = false
-const toggleTables = function () {
+const hideTables = function () {
   console.log('we get here')
   // if (tablesHidden === false) {
   $('#table_id').hide()
@@ -92,6 +93,7 @@ const showTables = function () {
   $('#table_id').show()
   $('#show_table_id').show()
   $('#wanted_table_id').show()
+  $('#wanted_table_id_info').show()
   $('#show_table_id_info').show()
   $('#table_id_info').show()
   $('label').show()
@@ -116,6 +118,7 @@ const onPostWantedGame = function (event) {
   const data = getFormFields(this)
   api.postWantedGame(data)
   .then((data) => ui.postWantedGameSuccess(data))
+  .then(showTables)
   .catch(ui.postWantedGamesFailure)
 }
 

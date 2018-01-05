@@ -25,17 +25,30 @@ const classActivator = function (tableId) {
   $('#' + tableId + ' tbody').on('click', 'tr', function () {
     // retrieve data from selected row
     const game = table.row(this).data()
-    console.log('this is game ', game)
-    $('#game-name').val(game.name)
-    $('#release-date').val(game.first_release_date)
-    $('#api-id').val(game.id)
-    $('#summary').val(game.summary)
-    $('#storyline').val(game.storyline)
-    $('#url').val(game.url)
+    // console.log('this is game ', game)
+    // const data = {
+    //   game_name: game.name,
+    //   api_id: game.id,
+    //   release_date: game.first_release_date,
+    //   summary: game.summary,
+    //   storyline: game.storyline,
+    //   url: game.url,
+    //   // cloudinary_id in api_games and games repspectively is nested differently.
+    //   // This allows me to access the cloudinary_id regardless of table, so that
+    //   // it can be used in handlebars
+    //   cloudinary_id: game.cover.cloudinary_id
+    // }
+    // console.log('this is data ', data)
+    // $('#game-name').val(game.name)
+    // $('#release-date').val(game.first_release_date)
+    // $('#api-id').val(game.id)
+    // $('#summary').val(game.summary)
+    // $('#storyline').val(game.storyline)
+    // $('#url').val(game.url)
     // some data that comes from the 3rd party api is nested differently.
     // this ensures I access the data regardless of which format is used.
-    game.cover === undefined ? $('#cloudinary_id').val(game.cloudinary_id) : $('#cloudinary_id').val(game.cover.cloudinary_id)
-    game.cover === undefined ? $('#screenshot').val('https:' + game.cover) : $('#screenshot').val('https:' + game.cover.url)
+    // game.cover === undefined ? $('#cloudinary_id').val(game.cloudinary_id) : $('#cloudinary_id').val(game.cover.cloudinary_id)
+    // game.cover === undefined ? $('#screenshot').val('https:' + game.cover) : $('#screenshot').val('https:' + game.cover.url)
     // store game to allow access outside of this function
     store.game = game
 
@@ -154,7 +167,7 @@ const signInSuccess = (data) => {
     ]
   })
   classActivator('wanted_table_id')
-  reloadTable('wanted_table_id')
+  // reloadTable('wanted_table_id')
 }
 
 const signInFailure = () => {
@@ -183,7 +196,10 @@ const signOutSuccess = () => {
   $('.signIn-error').text('')
   $('.clear-input').val('')
   toggleTables()
-  $('#wanted_table_id').DataTable().clear().draw()
+  // destroy table so that a old users data is protected and a new users data
+  // can be retrieved successfully upon signing in.
+  const table = $('#wanted_table_id').DataTable()
+  table.destroy()
   // $('#table_id').hide()
   // $('#show_table_id').hide()
   // $('#wanted_table_id').hide()
@@ -194,8 +210,6 @@ const signOutSuccess = () => {
   // $('a').hide()
 }
 const createGameSuccess = function (game) {
-  console.log('game ', game.game)
-  console.log('game.id ', game.game.id)
   reloadTable('show_table_id')
   // After successful creation of a game, the game
   // must be added to the wanted_games list.
