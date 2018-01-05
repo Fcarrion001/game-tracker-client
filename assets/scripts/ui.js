@@ -282,8 +282,10 @@ const postWantedGameSuccess = (data) => {
   reloadTable('wanted_table_id')
 }
 
-const postWantedGameFailure = (error) => console.log(error)
-
+const postWantedGameFailure = (error) => {
+  console.log(error)
+  $('.message').text('Game has already been added to wishlist')
+}
 const deleteWantedGameSuccess = (data) => {
   reloadTable('wanted_table_id')
   $('.content').html('')

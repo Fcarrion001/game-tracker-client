@@ -67,7 +67,7 @@ const onCreateGame = function (event) {
   .then((data) => api.postWantedGame(data))
   .then(ui.postWantedGameSuccess)
   .then(showTables)
-  .catch(ui.createGamesFailure)
+  .catch(ui.postWantedGameFailure)
 }
 
 // function that will hide and show the tables when a user is signing in or out,
@@ -119,7 +119,7 @@ const onPostWantedGame = function (event) {
   api.postWantedGame(data)
   .then((data) => ui.postWantedGameSuccess(data))
   .then(showTables)
-  .catch(ui.postWantedGamesFailure)
+  .catch(ui.postWantedGameFailure)
 }
 
 const onDeleteWantedGame = function (event) {
