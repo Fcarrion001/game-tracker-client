@@ -12,6 +12,7 @@
       <script src="public/application.js" type="text/javascript" charset="utf-8" defer></script>
     </head>
     <body class="container-fluid">
+
       <nav class="navbar navbar-inverse">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -61,74 +62,16 @@
     </form>
     <button class="pwd-ch-cancel" type="submit" name="cancel-btn">cancel</button>
 
-    <!-- <form id="index-games">
-      <fieldset>
-        <input type="submit" name="submit" value="List of Games">
-      </fieldset>
-    </form>
-
-    <form id="show-game">
-      <fieldset>
-        <input type="text" name="game[id]" placeholder="id">
-        <input type="submit" name="submit" value="View a game">
-      </fieldset>
-    </form>
-
-    <form id="post-wanted-game">
-      <fieldset>
-        <input type="text" name="wanted_game[game_id]" placeholder="id">
-        <input type="submit" name="submit" value="Add to wishlist">
-      </fieldset>
-    </form>
-    <form id="delete-wanted-game">
-      <fieldset>
-        <input type="text" name="wanted_game[id]" placeholder="id">
-        <input type="submit" name="submit" value="Delete a saved game">
-      </fieldset>
-    </form>
-
-    <form id="index-wanted-games">
-      <fieldset>
-        <input type="submit" name="submit" value="Wishlist">
-      </fieldset>
-    </form>
-
-    <form id="show-wanted-game">
-      <fieldset>
-        <input type="text" name="game[id]" placeholder="id">
-        <input type="submit" name="submit" value="View a saved game">
-      </fieldset>
-    </form>
-
-    <form id="index-api-games">
-      <fieldset>
-        <input type="submit" name="submit" value="Api-Games">
-      </fieldset>
-    </form> -->
 
     <div id="content" class="content">
     </div>
   </div>
 
-  <form id='create-game'>
-  <fieldset>
-      <input id='game-name' type="hidden" name="game[game_name]">
-      <input id='api-id' type="hidden" name="game[api_id]">
-      <input id='release-date' type="hidden" name="game[release_date]">
-      <input id='platform' type="hidden" name="game[platform]" value="playstation">
-      <input id='storyline' type="hidden" name="game[storyline]">
-      <input id='summary' type="hidden" name="game[summary]">
-      <input id='url' type="hidden" name="game[url]">
-      <input id='screenshot' type="hidden" name="game[screenshot]">
-      <input id='cloudinary_id' type="hidden" name="game[cloudinary_id]">
 
-      <button type="submit" class="not-signed" name="add-to-games">Add to games</button>
-  </fieldset>
-</form>
 
-  <!-- <input id="delete" type="hidden" name="api_id" value="">
-  <button id='delete-button'type="button" value="delete button" name="delete-button">Delete</button> -->
 <h2 class="table-title not-signed-in">List Of Games</h2>
+<h4 class="message api-message"></h4>
+<button id="create-game" type="button" class="not-signed-in" name="add-to-games">Add to Wishlist</button>
   <table id="table_id" class="display table table-striped table-bordered hide-table" width="100%" data-page-length="10" data-order="[[ 1, &quot;asc&quot; ]]">
     <thead>
         <tr>
@@ -149,7 +92,9 @@
 </table>
 
 <h2 class="table-title not-signed-in">Games On Other User's Wishlists</h2>
-  <table id="show_table_id" class="display table table-striped table-bordered hide-table" width="100%" data-page-length="10" data-order="[[ 1, &quot;asc&quot; ]]">
+<button id="post-wanted-game" type="button" class="not-signed-in" name="post-wanted-game-btn">Add to Wishlist</button>
+<h4 class="message game-message"></h4>
+  <table id="game_table_id" class="display table table-striped table-bordered hide-table" width="100%" data-page-length="10" data-order="[[ 1, &quot;asc&quot; ]]">
     <thead>
         <tr>
             <th class='show_table-api'>Name</th>
@@ -158,7 +103,7 @@
             <!-- <th class='show_table-api'>rating</th> -->
             <!-- <th class='show_table-api'>summary</th> -->
             <!-- <th class='show_table-api'>storyline> -->
-            <th class='show_table-api'>ID</th>
+            <th class='show_table-api'>Platform</th>
         </tr>
     </thead>
 
@@ -170,29 +115,29 @@
           <!-- <th class='show_table-api'>rating</th> -->
           <!-- <th class='show_table-api'>summary</th> -->
           <!-- <th class='show_table-api'>storyline> -->
-          <th class='show_table-api'>ID</th>
+          <th class='show_table-api'>Platform</th>
 
       </tr>
     </tfoot>
 </table>
 <h2 class="table-title not-signed-in">Your Wishlist</h2>
+<button id="delete-wanted-game" type="button" class="not-signed-in" name="delete-wanted-game-btn">Delete</button>
+<h4 class="message wanted-game-message"></h4>
 <table id="wanted_table_id" class="display table table-striped table-bordered clear-input hide-table" width="100%" data-page-length="10" data-order="[[ 1, &quot;asc&quot; ]]">
   <thead>
       <tr>
-        <th class='index-wanted'>ID</th>
-          <th class='index-wanted'>Name</th>
-          <th class='index-wanted'>Release Date</th>
-          <!-- <th class='index-wanted'>Platform</th> -->
+        <th class='index-wanted'>Name</th>
+        <th class='index-wanted'>Release Date</th>
+        <th class='index-wanted'>Platform</th>
 
       </tr>
   </thead>
 
   <tfoot>
     <tr>
-      <th class='index-wanted'>ID</th>
-        <th class='index-wanted'>Name</th>
-        <th class='index-wanted'>Release Date</th>
-        <!-- <th class='index-wanted'>Platform</th> -->
+      <th class='index-wanted'>Name</th>
+      <th class='index-wanted'>Release Date</th>
+      <th class='index-wanted'>Platform</th>
     </tr>
   </tfoot>
 </table>

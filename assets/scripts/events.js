@@ -1,4 +1,4 @@
-const getFormFields = require('../../lib/get-form-fields')
+// const getFormFields = require('../../lib/get-form-fields')
 const api = require('./api')
 const ui = require('./ui')
 const $ = require('jquery')
@@ -9,23 +9,25 @@ const addHandlers = () => {
   // $('#show-game').on('submit', onShowGame)
   // $('#index-wanted-games').on('submit', onIndexWantedGames)
   // $('#show-wanted-game').on('submit', onShowWantedGame)
-  $('.content').on('submit', '#post-wanted-game', onPostWantedGame)
+  $('#post-wanted-game').on('click', onPostWantedGame)
+  $('.content').on('click', '#post-wanted-game', onPostWantedGame)
+  $('#delete-wanted-game').on('click', onDeleteWantedGame)
   $('.content').on('submit', '#delete-wanted-game', onDeleteWantedGame)
+  $('#create-game').on('click', onCreateGame)
+  $('.content').on('click', '#create-game', onCreateGame)
   $('#table_id').on('click', 'tbody', ui.indexApiGamesSuccess)
   // using show<Game>Success callbacks to trigger handlebars when a row
   // is double clicked
   $('#table_id').on('dblclick', 'tbody', ui.showApiGameSuccess)
   $('#wanted_table_id').on('dblclick', 'tbody', ui.showWantedGameSuccess)
-  $('#show_table_id').on('dblclick', 'tbody', ui.showGameSuccess)
-  $('#create-game').on('submit', onCreateGame)
-  $('.content').on('submit', '#create-game', onCreateGame)
+  $('#game_table_id').on('dblclick', 'tbody', ui.showGameSuccess)
   $('.content').on('click', '.back-btn', showTables)
   $(document).ready(indexGames)
   $(document).ready(hideTables)
 }
 
 const indexGames = function () {
-  $('#show_table_id').DataTable({
+  $('#game_table_id').DataTable({
     // use dataTables to make ajax call
     ajax: {
       url: config.apiOrigin + '/games',
@@ -36,7 +38,7 @@ const indexGames = function () {
     columns: [
       { data: 'game_name' },
       { data: 'release_date' },
-      { data: 'id' }
+      { data: 'platform' }
     ]
   })
 // this callback holds the
@@ -45,16 +47,21 @@ const indexGames = function () {
 
 const onCreateGame = function (event) {
   event.preventDefault()
-  const data = getFormFields(this)
-  // const data = {
-  //   game: {
-  //     api_id: store.game.api_id,
-  //     game_name: store.game.game_name,
-  //     release_date: store.game.first_release_date,
-  //     summary: store.game.summary,
-  //     storyline: store.game.stroryline,
-  //   }
-  // }
+  // const data = getFormFields(this)
+  const data = {
+    game: {
+      api_id: store.game.id,
+      game_name: store.game.name,
+      release_date: store.game.first_release_date,
+      summary: store.game.summary,
+      storyline: store.game.stroryline,
+      cloudinary_id: store.game.cover.cloudinary_id,
+      screenshot: 'https:' + store.game.cover.url,
+      platform: 'playstation',
+      url: store.game.url
+    }
+  }
+  console.log('this is data at createGame ', data)
   api.createGame(data)
   // .then((data) => {
   //   return data
@@ -78,13 +85,13 @@ const hideTables = function () {
   console.log('we get here')
   // if (tablesHidden === false) {
   $('#table_id').hide()
-  $('#show_table_id').hide()
+  $('#game_table_id').hide()
   $('#wanted_table_id').hide()
-  $('#show_table_id_info').hide()
+  $('#game_table_id_info').hide()
   $('#table_id_info').hide()
   $('label').hide()
   $('a').hide()
-  $('#show_table_id_paginate').hide()
+  $('#game_table_id_paginate').hide()
   $('.not-signed-in').hide()
   $('.before-sign-in').show()
   $('.navbar-brand').show()
@@ -95,32 +102,38 @@ const hideTables = function () {
 const showTables = function () {
   $('.content').text('')
   $('#table_id').show()
-  $('#show_table_id').show()
+  $('#game_table_id').show()
   $('#wanted_table_id').show()
   $('#wanted_table_id_info').show()
-  $('#show_table_id_info').show()
+  $('#game_table_id_info').show()
   $('#table_id_info').show()
   $('label').show()
   $('a').show()
-  $('#show_table_id_paginate').show()
+  $('#game_table_id_paginate').show()
   $('.not-signed-in').show()
   $('.after-sign-in').show()
+  $('.before-sign-in').hide()
 }
 // const hideTables = () => {
 //   $('#table_id').hide()
-//   $('#show_table_id').hide()
+//   $('#game_table_id').hide()
 //   $('#wanted_table_id').hide()
-//   $('#show_table_id_info').hide()
+//   $('#game_table_id_info').hide()
 //   $('#table_id_info').hide()
 //   $('label').hide()
 //   $('a').hide()
-//   $('#show_table_id_paginate').hide()
+//   $('#game_table_id_paginate').hide()
 //   $('.not-signed-in').hide()
 // }
 
 const onPostWantedGame = function (event) {
   event.preventDefault()
-  const data = getFormFields(this)
+  // const data = getFormFields(this)
+  const data = {
+    wanted_game: {
+      game_id: store.game.id
+    }
+  }
   api.postWantedGame(data)
   .then((data) => ui.postWantedGameSuccess(data))
   .then(showTables)
@@ -129,7 +142,10 @@ const onPostWantedGame = function (event) {
 
 const onDeleteWantedGame = function (event) {
   event.preventDefault()
-  const data = getFormFields(this)
+  console.log('store.game ', store.game)
+  // const data = getFormFields(this)
+  const data = store.game.id
+
   api.deleteWantedGame(data)
   .then(ui.deleteWantedGameSuccess)
   .then(showTables)

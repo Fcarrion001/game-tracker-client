@@ -30,7 +30,7 @@ const postWantedGame = function (data) {
 
 const deleteWantedGame = function (data) {
   return $.ajax({
-    url: config.apiOrigin + '/wanted_games/' + data.wanted_game.id,
+    url: config.apiOrigin + '/wanted_games/' + data,
     method: 'DELETE',
     headers: {
       Authorization: 'Token token=' + store.user.token

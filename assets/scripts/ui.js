@@ -36,7 +36,8 @@ const classActivator = function (tableId) {
     //   // cloudinary_id in api_games and games repspectively is nested differently.
     //   // This allows me to access the cloudinary_id regardless of table, so that
     //   // it can be used in handlebars
-    //   cloudinary_id: game.cover.cloudinary_id
+    //   cloudinary_id: game.cover === undefined ? game.cloudinary_id : game.cover.cloudinary_id,
+    //   screenshot: game.cover === undefined ? 'https' + game.cover : 'https' + game.cover.url
     // }
     // console.log('this is data ', data)
     // $('#game-name').val(game.name)
@@ -60,14 +61,14 @@ const classActivator = function (tableId) {
 
 const viewGameOnly = function () {
   $('#table_id').hide()
-  $('#show_table_id').hide()
+  $('#game_table_id').hide()
   $('#wanted_table_id').hide()
   $('#wanted_table_id_info').hide()
-  $('#show_table_id_info').hide()
+  $('#game_table_id_info').hide()
   $('#table_id_info').hide()
   $('label').hide()
   $('a').hide()
-  $('#show_table_id_paginate').hide()
+  $('#game_table_id_paginate').hide()
   $('.not-signed-in').hide()
   $('.navbar-brand').show()
   $('.after-sign-in').show()
@@ -77,14 +78,14 @@ const toggleTables = function () {
   console.log('tablesHidden = ', tablesHidden)
   if (tablesHidden === false) {
     $('#table_id').hide()
-    $('#show_table_id').hide()
+    $('#game_table_id').hide()
     $('#wanted_table_id').hide()
     $('#wanted_table_id_info').hide()
-    $('#show_table_id_info').hide()
+    $('#game_table_id_info').hide()
     $('#table_id_info').hide()
     $('label').hide()
     $('a').hide()
-    $('#show_table_id_paginate').hide()
+    $('#game_table_id_paginate').hide()
     $('.not-signed-in').hide()
     $('.after-sign-in').hide()
     $('.navbar-brand').show()
@@ -94,14 +95,14 @@ const toggleTables = function () {
     tablesHidden = true
   } else {
     $('#table_id').show()
-    $('#show_table_id').show()
+    $('#game_table_id').show()
     $('#wanted_table_id').show()
     $('#wanted_table_id_info').show()
-    $('#show_table_id_info').show()
+    $('#game_table_id_info').show()
     $('#table_id_info').show()
     $('label').show()
     $('a').show()
-    $('#show_table_id_paginate').show()
+    $('#game_table_id_paginate').show()
     $('.not-signed-in').show()
     $('.after-sign-in').show()
     $('.before-sign-in').hide()
@@ -150,13 +151,13 @@ const signInSuccess = (data) => {
   toggleTables()
   // $('label').show()
   // $('#table_id_info').show()
-  // $('#show_table_id_info').show()
+  // $('#game_table_id_info').show()
   // $('#wanted_table_id_info').show()
   // $('a').show()
-  // $('#show_table_id').show()
+  // $('#game_table_id').show()
   // $('#table_id').show()
   // $('#wanted_table_id').show()
-  // $('#show_table_id_paginate').show()
+  // $('#game_table_id_paginate').show()
   // $('wanted_table_id-paginate').show()
 // make Get request to populate user's wishlist dataTable
   $('#wanted_table_id').DataTable({
@@ -170,9 +171,9 @@ const signInSuccess = (data) => {
     rowId: 'id',
     retrieve: true,
     columns: [
-      { data: 'game.id' },
       { data: 'game.game_name' },
-      { data: 'game.release_date' }
+      { data: 'game.release_date' },
+      { data: 'game.platform' }
     ]
   })
   classActivator('wanted_table_id')
@@ -212,16 +213,16 @@ const signOutSuccess = () => {
   const table = $('#wanted_table_id').DataTable()
   table.destroy()
   // $('#table_id').hide()
-  // $('#show_table_id').hide()
+  // $('#game_table_id').hide()
   // $('#wanted_table_id').hide()
   // $('label').hide()
   // $('#table_id_info').hide()
-  // $('#show_table_id_info').hide()
+  // $('#game_table_id_info').hide()
   // $('#wanted_table_id_info').hide()
   // $('a').hide()
 }
 const createGameSuccess = function (game) {
-  reloadTable('show_table_id')
+  reloadTable('game_table_id')
   // After successful creation of a game, the game
   // must be added to the wanted_games list.
   // data is defined here to format the data for the api
@@ -239,14 +240,14 @@ const createGameFailure = (error) => {
 
 const indexGamesSuccess = (data) => {
   // fade in games table on success
-  $('#show_table_id').fadeIn()
-  classActivator('show_table_id')
+  $('#game_table_id').fadeIn()
+  classActivator('game_table_id')
   // const games = []
   // for (let i = 0; i < data.length; i++) {
   //   games.push(data[i])
   // }
   // console.log('this is data ', data)
-  // $('#show_table_id').DataTable({
+  // $('#game_table_id').DataTable({
   //   ajax: {
   //     url: config.apiOrigin + '/games',
   //     dataSrc: 'games'
