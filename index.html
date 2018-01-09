@@ -12,13 +12,26 @@
       <script src="public/application.js" type="text/javascript" charset="utf-8" defer></script>
     </head>
     <body class="container-fluid">
+      <nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">Game Tracker</a>
+    </div>
+    <ul class="nav navbar-nav navbar-right">
+      <li id="ch-pwd-btn"><a class="after-sign-in" href="#"><span class="glyphicon glyphicon-user"></span>Change Password</a></li>
+      <li id="sign-out"><a class="after-sign-in" href="#"><span class="glyphicon glyphicon-log-out"></span>SignOut</a></li>
+      <li id="sign-up-btn"><a class="before-sign-in" href="#"><span class="glyphicon glyphicon-user "></span>SignUp</a></li>
+      <li id="sign-in-btn"><a class="before-sign-in" href="#"><span class="glyphicon glyphicon-log-in"></span>SignIn</a></li>
+    </ul>
+  </div>
+</nav>
       <h1>Game Tracker</h1>
 
-      <p>Keep track of games coming out, add them to your wishlist,and see what
-         other users have on their list</p>
+      <p>Learn about games coming out, add them to your wishlist, and see what
+         games other users are into.</p>
 
   <div id='page-wrap'>
-    <form id="sign-up">
+    <form id="sign-up" class="auth">
       <fieldset>
         <h3 class="message signUp-error"></h3>
         <input type="submit" name="submit" value="Sign up!">
@@ -28,7 +41,7 @@
       </fieldset>
     </form>
 
-    <form id="sign-in">
+    <form id="sign-in" class="auth">
       <fieldset>
         <h3 class="message signIn-error"></h3>
         <input type="submit" name="submit" value="Sign in!">
@@ -38,20 +51,15 @@
     </form>
 
 
-    <form id="change-password" class="not-signed-in">
+    <form id="change-password" class="auth">
       <fieldset>
-        <h3 class="message ch-pw-error"></h3>
+        <h3 class="message ch-pw-message"></h3>
         <input type="submit" name="submit" value="Change password!">
         <input type="password" name='passwords[old]' class="clear-input ch-pw" placeholder="old password">
         <input type="password" name='passwords[new]' class="clear-input ch-pw" placeholder="new password">
       </fieldset>
     </form>
-
-    <form id="sign-out" class="not-signed-in">
-      <fieldset>
-        <input type="submit" name="submit" value="sign out">
-      </fieldset>
-    </form>
+    <button class="pwd-ch-cancel" type="submit" name="cancel-btn">cancel</button>
 
     <!-- <form id="index-games">
       <fieldset>
@@ -114,7 +122,7 @@
       <input id='screenshot' type="hidden" name="game[screenshot]">
       <input id='cloudinary_id' type="hidden" name="game[cloudinary_id]">
 
-      <button type="submit" class="not-signed-in" name="add-to-games">Add to games</button>
+      <button type="submit" class="not-signed" name="add-to-games">Add to games</button>
   </fieldset>
 </form>
 

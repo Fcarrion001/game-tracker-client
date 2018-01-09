@@ -69,6 +69,8 @@ const viewGameOnly = function () {
   $('a').hide()
   $('#show_table_id_paginate').hide()
   $('.not-signed-in').hide()
+  $('.navbar-brand').show()
+  $('.after-sign-in').show()
 }
 
 const toggleTables = function () {
@@ -84,6 +86,10 @@ const toggleTables = function () {
     $('a').hide()
     $('#show_table_id_paginate').hide()
     $('.not-signed-in').hide()
+    $('.after-sign-in').hide()
+    $('.navbar-brand').show()
+    $('.before-sign-in').show()
+    $('.auth').hide()
 
     tablesHidden = true
   } else {
@@ -97,6 +103,9 @@ const toggleTables = function () {
     $('a').show()
     $('#show_table_id_paginate').show()
     $('.not-signed-in').show()
+    $('.after-sign-in').show()
+    $('.before-sign-in').hide()
+    $('.navbar-brand').show()
 
     tablesHidden = false
   }
@@ -177,18 +186,20 @@ const signInFailure = () => {
 }
 const changePasswordSuccess = (data) => {
   $('.ch-pw').val('')
-  // get rid of error message if one exists
-  $('.ch-pw-error').text('')
+  $('.ch-pw-message').text('Password has been changed')
+  $('.auth').hide()
+  $('.pwd-ch-cancel').hide()
 }
 
 const changePasswordFailure = (data) => {
-  $('.ch-pw-error').text('Incorrect password or old and new passwords match')
+  $('.ch-pw-message').text('Incorrect password or old and new passwords match')
   // clear input fields for re-entry
   $('.ch-pw').val('')
 }
 
 const signOutSuccess = () => {
   // $('.content').html('')
+
   $('.not-signed-in').hide()
   $('#sign-up').show()
   $('#sign-in').show()

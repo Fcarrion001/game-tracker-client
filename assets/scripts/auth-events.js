@@ -10,10 +10,35 @@ const addHandlers = () => {
   $('#sign-up').on('submit', onSignUp)
   $('#sign-in').on('submit', onSignIn)
   $('#change-password').on('submit', onChangePassword)
-  $('#sign-out').on('submit', onSignOut)
+  $('.navbar').on('click', '#sign-out', onSignOut)
+  $('.navbar').on('click', '#sign-in-btn', viewAuthForm)
+  $('.navbar').on('click', '#sign-up-btn', viewAuthForm)
+  $('.navbar').on('click', '#ch-pwd-btn', showPasswordChange)
+  $('.pwd-ch-cancel').on('click', cancelPasswordChange)
+}
+
+const viewAuthForm = function (event) {
+  console.log('this is event.target', event.target.text)
+  if (event.target.text === 'SignIn') {
+    $('#sign-in').show()
+    $('#sign-up').hide()
+  } else if (event.target.text === 'SignUp') {
+    $('#sign-up').show()
+    $('#sign-in').hide()
+  }
+}
+const showPasswordChange = function () {
+  $('#change-password').show()
+  $('.pwd-ch-cancel').show()
+}
+const cancelPasswordChange = function () {
+  $('#pw-ch').val('')
+  $('#change-password').hide()
+  $('.pwd-ch-cancel').hide()
 }
 
 const onSignUp = function (event) {
+  console.log('do we get here')
   event.preventDefault()
   const data = getFormFields(this)
 

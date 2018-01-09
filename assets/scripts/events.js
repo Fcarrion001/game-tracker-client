@@ -86,6 +86,10 @@ const hideTables = function () {
   $('a').hide()
   $('#show_table_id_paginate').hide()
   $('.not-signed-in').hide()
+  $('.before-sign-in').show()
+  $('.navbar-brand').show()
+  $('.auth').hide()
+  $('.pwd-ch-cancel').hide()
 }
 
 const showTables = function () {
@@ -100,6 +104,7 @@ const showTables = function () {
   $('a').show()
   $('#show_table_id_paginate').show()
   $('.not-signed-in').show()
+  $('.after-sign-in').show()
 }
 // const hideTables = () => {
 //   $('#table_id').hide()
