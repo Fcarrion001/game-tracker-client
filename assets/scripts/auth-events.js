@@ -18,7 +18,6 @@ const addHandlers = () => {
 }
 
 const viewAuthForm = function (event) {
-  console.log('this is event.target', event.target.text)
   if (event.target.text === 'SignIn') {
     $('#sign-in').show()
     $('#sign-up').hide()
@@ -38,14 +37,29 @@ const cancelPasswordChange = function () {
 }
 
 const onSignUp = function (event) {
-  console.log('do we get here')
   event.preventDefault()
   const data = getFormFields(this)
 
   authApi.signUp(data)
-    .then(ui.signUpSuccess)
-    .then((data) => authApi.signIn(data))
+  .done([ui.signUpSuccess,
+    function (response) {
+      authApi.signIn(data)
     .then(ui.signInSuccess)
+    .then((data) => api.indexApiGames(store.user))
+    .then((data) => {
+      return data
+    })
+    .then((data) => {
+    // convert epoch date format to a user-friendly format
+      data.map(function (elem) {
+        elem.first_release_date = (new Date(elem.first_release_date).toDateString())
+      })
+      return data
+    })
+    .then(ui.indexApiGamesSuccess)
+    .catch(ui.indexApiGamesFailure)
+    }
+  ])
     .catch(ui.signUpFailure)
 }
 
@@ -55,14 +69,12 @@ const onSignIn = function (event) {
   event.preventDefault()
   authApi.signIn(data)
   .then((data) => {
-    console.log('data = ', data)
     return data
   })
   .then((data) => ui.signInSuccess(data))
   // GET request to populate apiGames table
   .then((data) => api.indexApiGames(store.user))
   .then((data) => {
-    console.log('data before indexsuccess ', data)
     return data
   })
   .then((data) => {

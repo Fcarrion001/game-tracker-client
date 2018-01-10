@@ -61,14 +61,12 @@ const onCreateGame = function (event) {
       url: store.game.url
     }
   }
-  console.log('this is data at createGame ', data)
   api.createGame(data)
   // .then((data) => {
   //   return data
   // })
   .then((data) => ui.createGameSuccess(data))
   .then((data) => {
-    console.log('this is data after createGameSuccess ', data)
     return data
   })
   .then((data) => api.postWantedGame(data))
@@ -82,7 +80,6 @@ const onCreateGame = function (event) {
 // to the tables from a show.
 // let tablesHidden = false
 const hideTables = function () {
-  console.log('we get here')
   // if (tablesHidden === false) {
   $('#table_id').hide()
   $('#game_table_id').hide()
@@ -97,6 +94,7 @@ const hideTables = function () {
   $('.navbar-brand').show()
   $('.auth').hide()
   $('.pwd-ch-cancel').hide()
+  $('.content').empty()
 }
 
 const showTables = function () {
@@ -142,7 +140,7 @@ const onPostWantedGame = function (event) {
 
 const onDeleteWantedGame = function (event) {
   event.preventDefault()
-  console.log('store.game ', store.game)
+
   // const data = getFormFields(this)
   const data = store.game.id
 
