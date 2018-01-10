@@ -1,13 +1,34 @@
-{{!--
-<div class="col-xs-4 box">
-  <div data-id="{{game.id}}">
-    <ul name='games' class='handlebars-fields'>
-    <h6>Name</h6>
-      <li>{{game.name}}</li>
-    <h6>Platform</h6>
-      <li>playstation</li>
-    <h6>Release Date</h6>
-      <li>{{first_release_date}}</li>
-    </ul>
-  </div>
-</div> --}}
+<h3>{{game.name}}</h3>
+<h5>Summary</h5>
+{{#if game.summary}}
+      <p>{{game.summary}}</p>
+    {{else}}
+      <p>No summary provided.</p>
+    {{/if}}
+<h5>storyline</h5>
+{{#if game.storyline}}
+      <p>{{game.storyline}}</p>
+    {{else}}
+      <p>No storyline provided.</p>
+    {{/if}}
+<img src="https://images.igdb.com/igdb/image/upload/t_cover_big/{{game.cover.cloudinary_id}}.jpg" alt="screen shot">
+<h4 class="message hbs-message"></h4>
+{{!-- <form id='create-game'>
+<fieldset>
+    <input id='game-name' type="hidden" name="game[game_name]" value='{{game.name}}'>
+    <input id='api-id' type="hidden" name="game[api_id]" value='{{game.id}}'>
+    <input id='release-date' type="hidden" name="game[release_date]" value='{{game.first_release_date}}'>
+    <input id='platform' type="hidden" name="game[platform]" value="playstation">
+    <input id='storyline' type="hidden" name="game[storyline]" value='{{game.storyline}}'>
+    <input id='summary' type="hidden" name="game[summary]" value='{{game.summary}}'>
+    <input id='url' type="hidden" name="game[url]" value='{{game.url}}'>
+    <input id='screenshot' type="hidden" name="game[screenshot]" value='{{game.cover.url}}'>
+    <input id='cloudinary_id' type="hidden" name="game[cloudinary_id]" value='{{game.cover.cloudinary_id}}'>
+
+    <input type="submit" name="submit" value="add to wishlist">
+</fieldset>
+</form> --}}
+
+
+<button id="create-game" type="submit"  name="create-game-btn">Add to Wishlist</button>
+<button type="submit" class="back-btn" name="back-button">Back</button>

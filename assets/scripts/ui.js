@@ -1,13 +1,101 @@
 const store = require('./store')
 const showGamesTemplate = require('./templates/games.hbs')
-const showWantedGamesTemplate = require('./templates/wanted-games.hbs')
+const showWantedGameTemplate = require('./templates/show-wanted-game.hbs')
 const showApiGamesTemplate = require('./templates/api-games.hbs')
 const $ = require('jquery')
 const dt = require('datatables.net')
+const config = require('./config')
 const inputValue = (target) => $(target).val()
+// variable used to toggle visibility of data and input fields on the page when
+// user signs in and out.
+let tablesHidden = true
+// function that takes a table id as a parameter to active the class 'selected'
+// on clicked rows
+const classActivator = function (tableId) {
+  const table = $('#' + tableId).DataTable()
+
+  $('#' + tableId + ' tbody').on('click', 'tr', function () {
+    if ($(this).hasClass('selected')) {
+      $(this).removeClass('selected')
+      // clear message whenever a row is clicked
+      $('.message').text('')
+    } else {
+      table.$('tr.selected').removeClass('selected')
+      $(this).addClass('selected')
+      $('.message').text('')
+    }
+  })
+  $('#' + tableId + ' tbody').on('click', 'tr', function () {
+    // retrieve data from selected row
+    const game = table.row(this).data()
+    // depending on the table, the data will be nested differently so it is
+    // stored here so that the individual success callbacks containing handlebars
+    // can access the data without redundant code.
+    store.game = game
+  })
+}
+
+const viewGameOnly = function () {
+  $('#table_id').hide()
+  $('#game_table_id').hide()
+  $('#wanted_table_id').hide()
+  $('#wanted_table_id_info').hide()
+  $('#game_table_id_info').hide()
+  $('#table_id_info').hide()
+  $('label').hide()
+  $('a').hide()
+  $('#game_table_id_paginate').hide()
+  $('.not-signed-in').hide()
+  $('.navbar-brand').show()
+  $('.after-sign-in').show()
+}
+
+const toggleTables = function () {
+  if (tablesHidden === false) {
+    $('#table_id').hide()
+    $('#game_table_id').hide()
+    $('#wanted_table_id').hide()
+    $('#wanted_table_id_info').hide()
+    $('#game_table_id_info').hide()
+    $('#table_id_info').hide()
+    $('label').hide()
+    $('a').hide()
+    $('#game_table_id_paginate').hide()
+    $('.not-signed-in').hide()
+    $('.after-sign-in').hide()
+    $('.navbar-brand').show()
+    $('.before-sign-in').show()
+    $('.auth').hide()
+
+    tablesHidden = true
+  } else {
+    $('#table_id').show()
+    $('#game_table_id').show()
+    $('#wanted_table_id').show()
+    $('#wanted_table_id_info').show()
+    $('#game_table_id_info').show()
+    $('#table_id_info').show()
+    $('label').show()
+    $('a').show()
+    $('#game_table_id_paginate').show()
+    $('.not-signed-in').show()
+    $('.after-sign-in').show()
+    $('.before-sign-in').hide()
+    $('.navbar-brand').show()
+
+    tablesHidden = false
+  }
+}
+// dynamically add new game to table by clearing the
+// table and making a new ajax call.
+const reloadTable = (tableId) => {
+  const table = $('#' + tableId).DataTable()
+  table.clear().ajax.reload()
+}
 
 const signUpSuccess = (data) => {
   store.user = data.user
+  return data
 }
 
 const signUpFailure = () => {
@@ -18,8 +106,8 @@ const signUpFailure = () => {
     // if they do not match tell the user what went wrong
     $('.signUp-error').text('Sorry, the passwords you entered do not match. Please try again')
   } else {
-    // if they do match the email must be taken
-    // tell the user the email is taken already
+    // if they do match, the email must be taken.
+    // Tell the user the email is taken already
     $('.signUp-error').text('Sorry, that user already exist')
   }
   // clear the input fields so that the user can start fresh
@@ -35,6 +123,25 @@ const signInSuccess = (data) => {
   $('#sign-up').hide()
   // make sure only the most recent error is being displayed
   $('.signUp-failure').text('')
+  toggleTables()
+// make Get request to populate user's wishlist dataTable
+  $('#wanted_table_id').DataTable({
+    ajax: {
+      url: config.apiOrigin + '/wanted_games',
+      dataSrc: 'wanted_games',
+      headers: {
+        Authorization: 'Token token=' + store.user.token
+      }
+    },
+    rowId: 'id',
+    retrieve: true,
+    columns: [
+      { data: 'game.game_name' },
+      { data: 'game.release_date' },
+      { data: 'game.platform' }
+    ]
+  })
+  classActivator('wanted_table_id')
 }
 
 const signInFailure = () => {
@@ -44,161 +151,135 @@ const signInFailure = () => {
 }
 const changePasswordSuccess = (data) => {
   $('.ch-pw').val('')
-  // get rid of error message if one exists
-  $('.ch-pw-error').text('')
+  $('.ch-pw-message').text('Password has been changed')
+  $('.auth').hide()
+  $('.pwd-ch-cancel').hide()
 }
 
 const changePasswordFailure = (data) => {
-  $('.ch-pw-error').text('Incorrect password or old and new passwords match')
+  $('.ch-pw-message').text('Incorrect password or old and new passwords match')
   // clear input fields for re-entry
   $('.ch-pw').val('')
 }
 
 const signOutSuccess = () => {
-  $('.content').html('')
+  // $('.content').html('')
+
   $('.not-signed-in').hide()
   $('#sign-up').show()
   $('#sign-in').show()
   $('.signUp-error').text('')
   $('.signIn-error').text('')
   $('.clear-input').val('')
+  toggleTables()
+  // destroy table so that a old users data is protected and a new users data
+  // can be retrieved successfully upon signing in.
+  const table = $('#wanted_table_id').DataTable()
+  table.destroy()
 }
-const createGameSuccess = (data) => console.log('data.id ', data)
-  // return data
-  // store.games = data.games
+
+const createGameSuccess = function (game) {
+  reloadTable('game_table_id')
+  // After successful creation of a game, the game
+  // must be added to the wanted_games list.
+  // data is defined here to format the data for the api
+  const data = {
+    wanted_game: {
+      game_id: game.game.id
+    }
+  }
+  return data
+}
+
 const createGameFailure = (error) => {
   console.log(error)
 }
 
 const indexGamesSuccess = (data) => {
-  $('.content').html('')
-  const showGamesHTML = showGamesTemplate({
-    games: data.games
-  })
-  $('.content').append(showGamesHTML)
-  store.games = data.games
-  console.log('store.game = ', store.games)
+  // fade in games table on success
+  $('#game_table_id').fadeIn()
+  classActivator('game_table_id')
 }
 
 const indexGamesFailure = (error) => console.log(error)
 
 const showGameSuccess = (data) => {
-  console.log(data)
+  $('.content').html('')
+  viewGameOnly()
+
+  const showGamesHTML = showGamesTemplate({
+    game: store.game
+  })
+  $('.content').append(showGamesHTML)
 }
 const showGameFailure = (error) => console.log(error)
 
 const postWantedGameSuccess = (data) => {
   store.game_id = data.wanted_game.game_id
-  console.log(data)
+  // reload table
+  reloadTable('wanted_table_id')
 }
-const postWantedGameFailure = (error) => console.log(error)
 
-const deleteWantedGameSuccess = (data) => console.log(data)
+const postWantedGameFailure = (error) => {
+  console.log(error)
+  if ($('.content').is(':empty')) {
+    $('.table-message').text('Game has already been added to wishlist')
+  } else {
+    $('.hbs-message').text('Game has already been added to wishlist')
+  }
+}
+const deleteWantedGameSuccess = (data) => {
+  reloadTable('wanted_table_id')
+  $('.content').html('')
+}
 
 const deleteWantedGameFailure = (error) => console.log(error)
 
 const indexWantedGamesSuccess = (data) => {
-  $('.content').html('')
-  console.log(data)
-  const showWantedGamesHTML = showWantedGamesTemplate({
-    wanted_games: data.wanted_games
-  })
-  $('.content').append(showWantedGamesHTML)
-  store.wanted_games = data.wanted_games
-  console.log('store.game = ', store.wanted_games)
 }
 const indexWantedGamesFailure = (error) => console.log(error)
 
-const showWantedGameSuccess = (data) => console.log(data)
+const showWantedGameSuccess = (data) => {
+  $('.content').html('')
+  viewGameOnly()
+  const showWantedGameHTML = showWantedGameTemplate({
+    wanted_game: store.game
+  })
+  $('.content').append(showWantedGameHTML)
+}
 
 const showWantedGameFailure = (error) => console.log(error)
 
 const indexApiGamesSuccess = (data) => {
-  const games = []
-  for (let i = 0; i < data.length; i++) {
-    games.push(data[i])
-  }
-  // console.log('data ', data)
-  // console.log('games', games)
+// fade in the table on success
+  $('#table_id').fadeIn()
   $('#table_id').DataTable({
     data: data,
     rowId: 'id',
     retrieve: true,
     select: true,
-    buttons: [
-      'selectedSingle'
-    ],
     columns: [
     {data: 'name'},
     {data: 'first_release_date'},
     {data: 'id'}
     ]
   })
-  const table = $('#table_id').DataTable()
-
-  $('#table_id tbody').on('click', 'tr', function () {
-    if ($(this).hasClass('selected')) {
-      $(this).removeClass('selected')
-    } else {
-      table.$('tr.selected').removeClass('selected')
-      $(this).addClass('selected')
-    }
-  })
-  $('#table_id tbody').on('click', 'tr', function () {
-    const game = table.row(this).data()
-      let epochDate = game.first_release_date
-      const date = new Date(epochDate)
-      const releaseDate = date.toDateString()
-    $('#game-name').val(game.name)
-    $('#release-date').val(releaseDate)
-    $('#api-id').val(game.id)
-  })
-
-  $('#delete-button').click(function () {
-    table.row('.selected').remove().draw()
-  })
-  // const showGamesHTML = showGamesTemplate({
-  //   game: games
-  // })
-  // $('#table_id').append(showGamesHTML)
-  // store.game = games
-  // console.log('store.games ', store.games)
+  classActivator('table_id')
 }
+
 const indexApiGamesFailure = (data, error) => {
   console.log(error)
   console.log(data)
 }
+
 const showApiGameSuccess = (data) => {
-  const games = []
-  for (let i = 0; i < data.length; i++) {
-    games.push(data[i])
-  }
-  // games.forEach(function (element) {
-  //   let epochDate = element.first_release_date
-  //   const date = new Date(epochDate)
-  //   epochDate = date.toDateString()
-  //   return
-  // })
-('#show_table_id').DataTable({
-    data: data,
-    rowId: 'id',
-    retrieve: true,
-    columns: [
-    { data: 'name' },
-    { data: 'first_release_date' },
-    { data: 'popularity' },
-    // { data: 'total_rating' },
-    { data: 'summary' },
-    // { data: 'storyline' },
-    {data: 'id'}
-    ]
+  $('.content').html('')
+  viewGameOnly()
+
+  const showApiGameHTML = showApiGamesTemplate({
+    game: store.game
   })
-  // const showGamesHTML = showGamesTemplate({
-  //   game: games
-  // })
-  // $('#table_id').append(showGamesHTML)
-  // store.game = games
-  // console.log('store.games ', store.games)
+  $('.content').append(showApiGameHTML)
 }
 
 module.exports = {

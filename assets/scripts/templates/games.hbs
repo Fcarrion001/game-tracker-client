@@ -1,4 +1,4 @@
-<h4>Games Other People Want</h4>
+{{!-- <h4>Games Other People Want</h4>
 
  {{#each games as |game|}}
 <div class="col-xs-4 box">
@@ -19,4 +19,32 @@
     </form>
   </div>
 </div>
-{{/each}}
+{{/each}} --}}
+<div class='game'>
+<h3>{{game.game_name}}</h3>
+<h5>Summary</h5>
+{{#if game.summary}}
+      <p>{{game.summary}}</p>
+    {{else}}
+      <p>No summary provided.</p>
+    {{/if}}
+<h5>storyline</h5>
+{{#if game.storyline}}
+      <p>{{game.storyline}}</p>
+    {{else}}
+      <p>No storyline provided.</p>
+    {{/if}}
+<img src="https://images.igdb.com/igdb/image/upload/t_cover_big/{{game.cloudinary_id}}.jpg" alt="screen shot">
+</div>
+
+<h4 class="message hbs-message"></h4>
+
+{{!-- <form id="post-wanted-game">
+  <fieldset>
+    <input type="hidden" name="wanted_game[game_id]" value='{{game.id}}'>
+    <input type="submit" name="submit" value="Add to wishlist">
+  </fieldset>
+</form> --}}
+
+<button id="post-wanted-game" type="button" name="post-wanted-game-btn">Add to Wishlist</button>
+<button type="button" class="back-btn" name="back-button">Back</button>
