@@ -1,0 +1,13 @@
+$paper-white: #fefefe;
+$charcoal: #4e4e4e;
+$gray: #e5e5e5;
+$pure-white: #fff;
+$pure-black: #000;
+
+@function tint($color, $percentage) {
+  @return mix(white, $color, $percentage);
+}
+
+@function shade($color, $percentage) {
+  @return mix(black, $color, $percentage);
+}

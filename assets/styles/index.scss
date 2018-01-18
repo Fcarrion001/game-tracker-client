@@ -1,11 +1,5 @@
 $icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
 @import '~bootstrap-sass/assets/stylesheets/bootstrap';
-
-.selected {
-  color: red;
-}
-
-body {
-  // background-image: url('../images/game-background.png');
-  background-color: gray;
-}
+@import 'theme';
+@import 'typography';
+@import 'breakpoints';

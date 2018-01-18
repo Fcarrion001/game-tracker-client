@@ -1,0 +1,38 @@
+$line-height: 1.6;
+$body-font-size: 18px;
+$verticle-margin: 5px;
+$body-width: 800px;
+$horizontal-padding: 10px;
+
+body {
+  line-height: $line-height;
+  font-size: $body-font-size;
+  padding: 0px $horizontal-padding;
+  max-width: $body-width;
+  margin: $verticle-margin auto;
+  display: inline;
+  text-align: center;
+
+};
+
+// .hide-id {
+//   visibility: hidden;
+//   display: flow-root;
+// };
+
+#page-wrap {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+table.display {
+  margin: 0 auto;
+}
+
+th {
+  text-align: center;
+}
+
+.table-header {
+  margin: 0 auto;
+}

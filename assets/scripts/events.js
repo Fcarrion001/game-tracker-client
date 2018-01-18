@@ -12,7 +12,7 @@ const addHandlers = () => {
   $('#post-wanted-game').on('click', onPostWantedGame)
   $('.content').on('click', '#post-wanted-game', onPostWantedGame)
   $('#delete-wanted-game').on('click', onDeleteWantedGame)
-  $('.content').on('submit', '#delete-wanted-game', onDeleteWantedGame)
+  $('.content').on('click', '#delete-wanted-game', onDeleteWantedGame)
   $('#create-game').on('click', onCreateGame)
   $('.content').on('click', '#create-game', onCreateGame)
   $('#table_id').on('click', 'tbody', ui.indexApiGamesSuccess)

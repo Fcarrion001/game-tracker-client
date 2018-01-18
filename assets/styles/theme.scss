@@ -1,0 +1,35 @@
+@import 'colors';
+@import 'typography';
+
+
+p, h1, h2, h3, h4, h5 {
+  color: $pure-black;
+  font-weight: 600;
+};
+
+
+.selected {
+  color: red;
+}
+
+.message {
+  color: red;
+  background-color: black;
+}
+
+.content {
+  background-color: grey;
+}
+
+body {
+  background-color: #eee;
+}
+
+table.display {
+  border: 1px solid $pure-black;
+  background-color: white;
+}
+
+.header {
+  background-color: white;
+}

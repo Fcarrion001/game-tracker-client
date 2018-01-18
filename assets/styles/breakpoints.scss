@@ -1,0 +1,13 @@
+@import 'breakpoint';
+@import 'typography';
+
+body, h1, p, div {
+  @include breakpoint(tiny) {
+    line-height: $line-height * .8;
+    font-size: $body-font-size * .8;
+    padding: 0 $horizontal-padding * .5;
+    max-width: $body-width * .7;
+    margin: $verticle-margin * .5 auto;
+
+  }
+}

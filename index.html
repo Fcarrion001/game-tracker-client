@@ -11,7 +11,7 @@
       <script src="public/vendor.js" type="text/javascript" charset="utf-8" defer></script>
       <script src="public/application.js" type="text/javascript" charset="utf-8" defer></script>
     </head>
-    <body class="container-fluid">
+    <body>
 
       <nav class="navbar navbar-inverse">
   <div class="container-fluid">
@@ -26,14 +26,15 @@
     </ul>
   </div>
 </nav>
+<div id='page-wrap' class="container-fluid">
+  <div class="header">
       <h1>Game Tracker</h1>
 
       <p>Learn about games coming out, add them to your wishlist, and see what
          games other users are into.</p>
       <p>Click on a game to select it for adding and deleting, or double click
-         to view more information.
+         to view more information.</p>
 
-  <div id='page-wrap'>
     <form id="sign-up" class="auth">
       <fieldset>
         <h3 class="message signUp-error"></h3>
@@ -63,18 +64,19 @@
       </fieldset>
     </form>
     <button class="pwd-ch-cancel" type="submit" name="cancel-btn">cancel</button>
-
+</div>
 
     <div id="content" class="content">
     </div>
   </div>
 
 
-
-<h2 class="table-title not-signed-in">List Of Games</h2>
-<h4 class="message table-message"></h4>
-<button id="create-game" type="button" class="not-signed-in" name="add-to-games">Add to Wishlist</button>
-  <table id="table_id" class="display table table-striped table-bordered hide-table" width="100%" data-page-length="10" data-order="[[ 1, &quot;asc&quot; ]]">
+<div class="table-header">
+  <h2 class="table-title not-signed-in">List Of Games</h2>
+  <h4 class="message table-message"></h4>
+  <button id="create-game" type="button" class="not-signed-in" name="add-to-games">Add to Wishlist</button>
+</div>
+  <table id="table_id" class="display compact table table-striped table-bordered hide-table" width="70%" data-page-length="10" data-order="[[ 1, &quot;asc&quot; ]]">
     <thead>
         <tr>
             <th class='index-api'>Name</th>
@@ -93,10 +95,12 @@
     </tfoot>
 </table>
 
+<div class="table-header">
 <h2 class="table-title not-signed-in">Games On Other User's Wishlists</h2>
 <button id="post-wanted-game" type="button" class="not-signed-in" name="post-wanted-game-btn">Add to Wishlist</button>
 <h4 class="message table-message"></h4>
-  <table id="game_table_id" class="display table table-striped table-bordered hide-table" width="100%" data-page-length="10" data-order="[[ 1, &quot;asc&quot; ]]">
+</div>
+  <table id="game_table_id" class="display table table-striped table-bordered hide-table" width="70%" data-page-length="10" data-order="[[ 1, &quot;asc&quot; ]]">
     <thead>
         <tr>
             <th class='show_table-api'>Name</th>
@@ -122,10 +126,12 @@
       </tr>
     </tfoot>
 </table>
+<div class="table-header">
 <h2 class="table-title not-signed-in">Your Wishlist</h2>
 <button id="delete-wanted-game" type="button" class="not-signed-in" name="delete-wanted-game-btn">Delete</button>
 <h4 class="message wanted-game-message"></h4>
-<table id="wanted_table_id" class="display table table-striped table-bordered clear-input hide-table" width="100%" data-page-length="10" data-order="[[ 1, &quot;asc&quot; ]]">
+</div>
+<table id="wanted_table_id" class="display table table-striped table-bordered clear-input hide-table" width="70%" data-page-length="10" data-order="[[ 1, &quot;asc&quot; ]]">
   <thead>
       <tr>
         <th class='index-wanted'>Name</th>

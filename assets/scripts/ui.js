@@ -135,6 +135,9 @@ const signInSuccess = (data) => {
     },
     rowId: 'id',
     retrieve: true,
+    'columnDefs': [
+      {'width': '20%', 'targets': '_all'}
+    ],
     columns: [
       { data: 'game.game_name' },
       { data: 'game.release_date' },
