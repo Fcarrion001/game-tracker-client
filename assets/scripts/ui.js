@@ -182,6 +182,7 @@ const signOutSuccess = () => {
 }
 
 const createGameSuccess = function (game) {
+  console.log('this is game', game)
   reloadTable('game_table_id')
   // After successful creation of a game, the game
   // must be added to the wanted_games list.
@@ -218,6 +219,7 @@ const showGameSuccess = (data) => {
 const showGameFailure = (error) => console.log(error)
 
 const postWantedGameSuccess = (data) => {
+  console.log('wanted_game ', data)
   store.game_id = data.wanted_game.game_id
   // reload table
   reloadTable('wanted_table_id')
@@ -238,9 +240,9 @@ const deleteWantedGameSuccess = (data) => {
 
 const deleteWantedGameFailure = (error) => console.log(error)
 
-const indexWantedGamesSuccess = (data) => {
-}
-const indexWantedGamesFailure = (error) => console.log(error)
+// const indexWantedGamesSuccess = (data) => {
+// }
+// const indexWantedGamesFailure = (error) => console.log(error)
 
 const showWantedGameSuccess = (data) => {
   $('.content').html('')
@@ -255,6 +257,7 @@ const showWantedGameFailure = (error) => console.log(error)
 
 const indexApiGamesSuccess = (data) => {
 // fade in the table on success
+  console.log(data)
   $('#table_id').fadeIn()
   $('#table_id').DataTable({
     data: data,
@@ -303,8 +306,8 @@ module.exports = {
   postWantedGameFailure,
   deleteWantedGameSuccess,
   deleteWantedGameFailure,
-  indexWantedGamesSuccess,
-  indexWantedGamesFailure,
+  // indexWantedGamesSuccess,
+  // indexWantedGamesFailure,
   showWantedGameSuccess,
   showWantedGameFailure,
   indexApiGamesSuccess,
