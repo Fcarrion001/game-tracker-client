@@ -22,7 +22,9 @@ Install with `npm install`.
 ## Technologies Used
 
 1.Bootstrap
+
 2.Handlebars
+
 3.DataTables
 
 ## How to use
@@ -59,6 +61,7 @@ users wishlist" table.
 ## Links
 
 [`Deployed Web App`](https://fcarrion001.github.io/game-tracker-client/)
+
 [`API`](https://github.com/Fcarrion001/gamer-api) repo created by me that is used by this app.
 
 
