@@ -166,8 +166,7 @@ const changePasswordFailure = (data) => {
 }
 
 const signOutSuccess = () => {
-  // $('.content').html('')
-
+  $('.content').html('')
   $('.not-signed-in').hide()
   $('#sign-up').show()
   $('#sign-in').show()
