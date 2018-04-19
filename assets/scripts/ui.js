@@ -8,7 +8,7 @@ const config = require('./config')
 const inputValue = (target) => $(target).val()
 // variable used to toggle visibility of data and input fields on the page when
 // user signs in and out.
-let tablesHidden = true
+let signedOut = true
 // function that takes a table id as a parameter to active the class 'selected'
 // on clicked rows
 const classActivator = function (tableId) {
@@ -46,12 +46,14 @@ const viewGameOnly = function () {
   $('a').hide()
   $('#game_table_id_paginate').hide()
   $('.not-signed-in').hide()
+  $('.after-sign-in').hide()
   $('.navbar-brand').show()
-  $('.after-sign-in').show()
+  $('.before-sign-in').show()
+  $('.auth').hide()
 }
-
+// function to toggle tables specifically when user signs in and out.
 const toggleTables = function () {
-  if (tablesHidden === false) {
+  if (signedOut === false) {
     $('#table_id').hide()
     $('#game_table_id').hide()
     $('#wanted_table_id').hide()
@@ -67,7 +69,8 @@ const toggleTables = function () {
     $('.before-sign-in').show()
     $('.auth').hide()
 
-    tablesHidden = true
+    signedOut = true
+
   } else {
     $('#table_id').show()
     $('#game_table_id').show()
@@ -83,7 +86,7 @@ const toggleTables = function () {
     $('.before-sign-in').hide()
     $('.navbar-brand').show()
 
-    tablesHidden = false
+    signedOut = false
   }
 }
 // dynamically add new game to table by clearing the
@@ -92,19 +95,22 @@ const reloadTable = (tableId) => {
   const table = $('#' + tableId).DataTable()
   table.clear().ajax.reload()
 }
-
+// pass user data for automatic sign-in
 const signUpSuccess = (data) => {
   store.user = data.user
   return data
 }
 
 const signUpFailure = () => {
-  // on error check to see if the password value and password confirmation value match
-  if (inputValue('.signUp-email') === '' || inputValue('.signUp-pw') === '' || inputValue('.signUp-pw-conf') === '') {
+  // on error check to see if the password value and password confirmation
+  // value match
+  if (inputValue('.signUp-email') === '' || inputValue('.signUp-pw') === '' ||
+      inputValue('.signUp-pw-conf') === '') {
     $('.signUp-error').text('Please fill in all fields prior to submission')
   } else if ($('.signUp-pw').val() !== $('.signUp-pw-conf').val()) {
     // if they do not match tell the user what went wrong
-    $('.signUp-error').text('Sorry, the passwords you entered do not match. Please try again')
+    $('.signUp-error').text('Sorry, the passwords you entered do not match.'
+    + 'Please try again')
   } else {
     // if they do match, the email must be taken.
     // Tell the user the email is taken already
@@ -117,6 +123,7 @@ const signUpFailure = () => {
 }
 
 const signInSuccess = (data) => {
+  // store data to be used for authentication later
   store.user = data.user
   $('.not-signed-in').show()
   $('#sign-in').hide()
@@ -125,26 +132,25 @@ const signInSuccess = (data) => {
   $('.signUp-failure').text('')
   toggleTables()
 // make Get request to populate user's wishlist dataTable
-  $('#wanted_table_id').DataTable({
-    ajax: {
-      url: config.apiOrigin + '/wanted_games',
-      dataSrc: 'wanted_games',
-      headers: {
-        Authorization: 'Token token=' + store.user.token
-      }
-    },
-    rowId: 'id',
-    retrieve: true,
-    'columnDefs': [
-      {'width': '20%', 'targets': '_all'}
-    ],
-    columns: [
-      { data: 'game.game_name' },
-      { data: 'game.release_date' },
-      { data: 'game.platform' }
-    ]
-  })
-  classActivator('wanted_table_id')
+  // $('#wanted_table_id').DataTable({
+  //   ajax: {
+  //     url: config.apiOrigin + '/wanted_games',
+  //     dataSrc: 'wanted_games',
+  //     headers: {
+  //       Authorization: 'Token token=' + store.user.token
+  //     }
+  //   },
+  //   rowId: 'id',
+  //   retrieve: true,
+  //   'columnDefs': [
+  //     {'width': '20%', 'targets': '_all'}
+  //   ],
+  //   columns: [
+  //     { data: 'game.game_name' },
+  //     { data: 'game.release_date' },
+  //     { data: 'game.platform' }
+  //   ]
+  // })
 }
 
 const signInFailure = () => {
@@ -180,8 +186,7 @@ const signOutSuccess = () => {
   table.destroy()
 }
 
-const createGameSuccess = function (game) {
-  console.log('this is game', game)
+const postGameSuccess = function (game) {
   reloadTable('game_table_id')
   // After successful creation of a game, the game
   // must be added to the wanted_games list.
@@ -194,9 +199,7 @@ const createGameSuccess = function (game) {
   return data
 }
 
-const createGameFailure = (error) => {
-  console.log(error)
-}
+const postGameFailure = (error) => console.log(error)
 
 const indexGamesSuccess = (data) => {
   // fade in games table on success
@@ -218,8 +221,7 @@ const showGameSuccess = (data) => {
 const showGameFailure = (error) => console.log(error)
 
 const postWantedGameSuccess = (data) => {
-  console.log('wanted_game ', data)
-  store.game_id = data.wanted_game.game_id
+  // store.game_id = data.wanted_game.game_id
   // reload table
   reloadTable('wanted_table_id')
 }
@@ -239,8 +241,9 @@ const deleteWantedGameSuccess = (data) => {
 
 const deleteWantedGameFailure = (error) => console.log(error)
 
-// const indexWantedGamesSuccess = (data) => {
-// }
+// give wanted table the ability to add class selected to clicked rows
+const indexWantedGamesSuccess = () => classActivator('wanted_table_id')
+
 // const indexWantedGamesFailure = (error) => console.log(error)
 
 const showWantedGameSuccess = (data) => {
@@ -256,7 +259,6 @@ const showWantedGameFailure = (error) => console.log(error)
 
 const indexApiGamesSuccess = (data) => {
 // fade in the table on success
-  console.log(data)
   $('#table_id').fadeIn()
   $('#table_id').DataTable({
     data: data,
@@ -288,8 +290,8 @@ const showApiGameSuccess = (data) => {
 }
 
 module.exports = {
-  createGameSuccess,
-  createGameFailure,
+  postGameSuccess,
+  postGameFailure,
   signUpSuccess,
   signUpFailure,
   signInSuccess,
@@ -305,7 +307,7 @@ module.exports = {
   postWantedGameFailure,
   deleteWantedGameSuccess,
   deleteWantedGameFailure,
-  // indexWantedGamesSuccess,
+  indexWantedGamesSuccess,
   // indexWantedGamesFailure,
   showWantedGameSuccess,
   showWantedGameFailure,

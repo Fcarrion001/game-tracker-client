@@ -11,24 +11,15 @@
     {{else}}
       <p>No storyline provided.</p>
     {{/if}}
-<img src="https://images.igdb.com/igdb/image/upload/t_cover_big/{{game.cover.cloudinary_id}}.jpg" alt="screen shot">
+<img src="https://images.igdb.com/igdb/image/upload/t_cover_big/{{game.cover.cloudinary_id}}.jpg"
+ alt="screen shot">
+
 <h4 class="message hbs-message"></h4>
-{{!-- <form id='create-game'>
-<fieldset>
-    <input id='game-name' type="hidden" name="game[game_name]" value='{{game.name}}'>
-    <input id='api-id' type="hidden" name="game[api_id]" value='{{game.id}}'>
-    <input id='release-date' type="hidden" name="game[release_date]" value='{{game.first_release_date}}'>
-    <input id='platform' type="hidden" name="game[platform]" value="playstation">
-    <input id='storyline' type="hidden" name="game[storyline]" value='{{game.storyline}}'>
-    <input id='summary' type="hidden" name="game[summary]" value='{{game.summary}}'>
-    <input id='url' type="hidden" name="game[url]" value='{{game.url}}'>
-    <input id='screenshot' type="hidden" name="game[screenshot]" value='{{game.cover.url}}'>
-    <input id='cloudinary_id' type="hidden" name="game[cloudinary_id]" value='{{game.cover.cloudinary_id}}'>
 
-    <input type="submit" name="submit" value="add to wishlist">
-</fieldset>
-</form> --}}
-
-
-<button id="create-game" type="submit" class="btn btn-success" name="create-game-btn">Add to Wishlist</button>
-<button type="submit" class="back-btn btn btn-secondary" name="back-button">Back</button>
+{{!-- button to post to attempt to post to games table followed by a post to
+  wanted games --}}
+<button id="post-game" type="submit" class="btn btn-success"
+ name="post-game-btn">Add to Wishlist</button>
+{{!-- back button to move to previous view --}}
+<button type="submit" class="back-btn btn btn-secondary"
+ name="back-button">Back</button>

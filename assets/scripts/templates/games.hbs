@@ -12,16 +12,15 @@
     {{else}}
       <p>No storyline provided.</p>
     {{/if}}
-<img src="https://images.igdb.com/igdb/image/upload/t_cover_big/{{game.cloudinary_id}}.jpg" alt="screen shot">
+{{!-- use the 3rd party api website to get the image using the cloudinary_id--}}
+<img src="https://images.igdb.com/igdb/image/upload/t_cover_big/{{game.cloudinary_id}}.jpg"
+ alt="screen shot">
 
 <h4 class="message hbs-message"></h4>
 
-{{!-- <form id="post-wanted-game">
-  <fieldset>
-    <input type="hidden" name="wanted_game[game_id]" value='{{game.id}}'>
-    <input type="submit" name="submit" value="Add to wishlist">
-  </fieldset>
-</form> --}}
-
-<button id="post-wanted-game" type="button" class="btn btn-success" name="post-wanted-game-btn">Add to Wishlist</button>
-<button type="button" class="back-btn btn btn-secondary" name="back-button">Back</button>
+{{!-- button to post to a wanted game --}}
+<button id="post-wanted-game" type="button" class="btn btn-success"
+ name="post-wanted-game-btn">Add to Wishlist</button>
+{{!-- back button to move to previous screen  --}}
+<button type="button" class="back-btn btn btn-secondary"
+ name="back-button">Back</button>

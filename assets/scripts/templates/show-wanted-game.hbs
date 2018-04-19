@@ -12,17 +12,14 @@
     {{else}}
       <p>No storyline provided.</p>
     {{/if}}
-<img src="https://images.igdb.com/igdb/image/upload/t_cover_big/{{wanted_game.game.cloudinary_id}}.jpg" alt="screen shot">
+<img src="https://images.igdb.com/igdb/image/upload/t_cover_big/{{wanted_game.game.cloudinary_id}}.jpg"
+ alt="screen shot">
 
 <h4 class="message"></h4>
 
-{{!-- <form id="delete-wanted-game">
-  <fieldset>
-    <input type="hidden" name="wanted_game[id]" value="{{wanted_game.id}}">
-    <input type="submit" name="submit" value="Delete">
-  </fieldset>
-</form> --}}
-
-
-<button id="delete-wanted-game" type="button" class="crud-btn btn btn-danger" name="delete-wanted-game-btn">Delete</button>
-<button type="submit" class="back-btn btn btn-secondary" name="back-button">Back</button>
+{{!-- button to delete a wanted game --}}
+<button id="delete-wanted-game" type="button" class="crud-btn btn btn-danger"
+ name="delete-wanted-game-btn">Delete</button>
+{{!-- back button to move to previous view --}}
+<button type="submit" class="back-btn btn btn-secondary"
+ name="back-button">Back</button>
