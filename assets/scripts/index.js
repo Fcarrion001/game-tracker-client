@@ -2,8 +2,6 @@
 
 const setAPIOrigin = require('../../lib/set-api-origin')
 const config = require('./config')
-// const $ = require('jquery')
-// const dt = require('datatables.net')()
 $(() => {
   setAPIOrigin(location, config)
 })

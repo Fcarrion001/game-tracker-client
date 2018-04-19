@@ -1,154 +1,165 @@
 <!DOCTYPE html>
 <html>
-    <head>
-      <title>Game Tracker</title>
-      <meta name="viewport" content="width=device-width, initial-scale=1">
 
-      <!-- Do not add `link` tags unless you know what you are doing -->
-      <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+<head>
+  <title>Game Tracker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-      <!-- Do not add `script` tags unless you know what you are doing -->
-      <script src="public/vendor.js" type="text/javascript" charset="utf-8" defer></script>
-      <script src="public/application.js" type="text/javascript" charset="utf-8" defer></script>
-    </head>
-    <body>
+  <!-- Do not add `link` tags unless you know what you are doing -->
+  <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
 
-      <nav class="navbar navbar-inverse">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="#">Game Tracker</a>
+  <!-- Do not add `script` tags unless you know what you are doing -->
+  <script src="public/vendor.js" type="text/javascript" charset="utf-8" defer></script>
+  <script src="public/application.js" type="text/javascript" charset="utf-8" defer></script>
+</head>
+
+<body>
+
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">Game Tracker</a>
+      </div>
+      <ul class="nav navbar-nav navbar-right">
+        <li id="ch-pwd-btn"><a class="after-sign-in" href="#"><span
+        class="glyphicon glyphicon-user"></span>Change Password</a></li>
+        <li id="sign-out"><a class="after-sign-in" href="#"><span
+        class="glyphicon glyphicon-log-out"></span>SignOut</a></li>
+        <li id="sign-up-btn"><a class="before-sign-in" href="#"><span
+        class="glyphicon glyphicon-user "></span>SignUp</a></li>
+        <li id="sign-in-btn"><a class="before-sign-in" href="#"><span
+        class="glyphicon glyphicon-log-in"></span>SignIn</a></li>
+      </ul>
     </div>
-    <ul class="nav navbar-nav navbar-right">
-      <li id="ch-pwd-btn"><a class="after-sign-in" href="#"><span class="glyphicon glyphicon-user"></span>Change Password</a></li>
-      <li id="sign-out"><a class="after-sign-in" href="#"><span class="glyphicon glyphicon-log-out"></span>SignOut</a></li>
-      <li id="sign-up-btn"><a class="before-sign-in" href="#"><span class="glyphicon glyphicon-user "></span>SignUp</a></li>
-      <li id="sign-in-btn"><a class="before-sign-in" href="#"><span class="glyphicon glyphicon-log-in"></span>SignIn</a></li>
-    </ul>
-  </div>
-</nav>
-<div id='page-wrap' class="container-fluid">
-  <div class="header">
+  </nav>
+  <div id='page-wrap' class="container-fluid">
+    <div class="header">
       <h1>Game Tracker</h1>
 
-      <p>Learn about games coming out, add them to your wishlist, and see what
-         games other users are into.</p>
-      <p>Click on a game to select it for adding and deleting, or double click
-         to view more information.</p>
+      <p>Learn about games coming out, add them to your wishlist, and see what games other users are into.</p>
+      <p>Click on a game to select it for adding and deleting, or double click to view more information.</p>
 
-    <form id="sign-up" class="auth">
-      <fieldset>
-        <h3 class="message signUp-error"></h3>
-        <input type="text" name=credentials[email] class="clear-input signUp-email" placeholder="email">
-        <input type="password" name='credentials[password]' class="clear-input signUp-pw" placeholder="password">
-        <input type="password" name="credentials[password_confirmation]" class="clear-input signUp-pw-conf" placeholder="password confirmation">
-        <input type="submit" class="btn btn-primary" name="submit" value="Submit">
-      </fieldset>
-    </form>
+      <form id="sign-up" class="auth">
+        <fieldset>
+          <h3 class="message signUp-error"></h3>
+          <input type="text" name=credentials[email] class="clear-input signUp-email" placeholder="email">
+          <input type="password" name='credentials[password]' class="clear-input signUp-pw" placeholder="password">
+          <input type="password" name="credentials[password_confirmation]" class="clear-input signUp-pw-conf" placeholder="password confirmation">
+          <input type="submit" class="btn btn-primary" name="submit" value="Submit">
+        </fieldset>
+      </form>
 
-    <form id="sign-in" class="auth">
-      <fieldset>
-        <h3 class="message signIn-error"></h3>
-        <input type="text" name=credentials[email] class="clear-input" placeholder="email">
-        <input type="password" name='credentials[password]' class="clear-input" placeholder="password">
-        <input type="submit" class="btn btn-primary" name="submit" value="Submit">
-      </fieldset>
-    </form>
+      <form id="sign-in" class="auth">
+        <fieldset>
+          <h3 class="message signIn-error"></h3>
+          <input type="text" name=credentials[email] class="clear-input" placeholder="email">
+          <input type="password" name='credentials[password]' class="clear-input" placeholder="password">
+          <input type="submit" class="btn btn-primary" name="submit" value="Submit">
+        </fieldset>
+      </form>
 
 
-    <form id="change-password" class="auth">
-      <fieldset>
-        <h3 class="message ch-pw-message"></h3>
-        <input type="password" name='passwords[old]' class="clear-input ch-pw" placeholder="old password">
-        <input type="password" name='passwords[new]' class="clear-input ch-pw" placeholder="new password">
-        <input type="submit" class="btn btn-primary" name="submit" value="Change">
-      </fieldset>
-    </form>
-    <button class="pwd-ch-cancel btn btn-secondary" type="submit" name="cancel-btn">cancel</button>
-</div>
+      <form id="change-password" class="auth">
+        <fieldset>
+          <h3 class="message ch-pw-message"></h3>
+          <input type="password" name='passwords[old]' class="clear-input ch-pw" placeholder="old password">
+          <input type="password" name='passwords[new]' class="clear-input ch-pw" placeholder="new password">
+          <input type="submit" class="btn btn-primary" name="submit" value="Change">
+        </fieldset>
+      </form>
+      <button class="pwd-ch-cancel btn btn-secondary" type="submit" name="cancel-btn">cancel</button>
+    </div>
 
     <div id="content" class="content">
     </div>
   </div>
 
 
-<div class="table-header">
-  <h2 class="table-title not-signed-in">List Of Games</h2>
-  <h4 class="message table-message"></h4>
-  <button id="create-game" type="button" class="not-signed-in btn btn-success" name="add-to-games">Add to Wishlist</button>
-</div>
-  <table id="table_id" class="display compact table table-striped table-bordered hide-table" width="70%" data-page-length="10" data-order="[[ 1, &quot;asc&quot; ]]">
+  <div class="table-header">
+    <h2 class="table-title not-signed-in">List Of Games</h2>
+    <h4 class="message table-message"></h4>
+    <button id="post-game" type="button" class="not-signed-in btn btn-success"
+    name="add-to-games">Add to Wishlist</button>
+  </div>
+  <table id="table_id" class="display compact table table-striped table-bordered hide-table"
+  width="70%" data-page-length="10" data-order="[[ 1, &quot;asc&quot; ]]">
     <thead>
-        <tr>
-            <th class='index-api'>Name</th>
-            <th class='index-api'>Release Date</th>
-            <th class='index-api'>ID</th>
+      <tr>
+        <th class='index-api'>Name</th>
+        <th class='index-api'>Release Date</th>
+        <th class='index-api'>ID</th>
 
-        </tr>
+      </tr>
     </thead>
 
     <tfoot>
       <tr>
-          <th class='index-api'>Name</th>
-          <th class='index-api'>Release Date</th>
-          <th class='index-api'>ID</th>
+        <th class='index-api'>Name</th>
+        <th class='index-api'>Release Date</th>
+        <th class='index-api'>ID</th>
       </tr>
     </tfoot>
-</table>
+  </table>
 
-<div class="table-header">
-<h2 class="table-title not-signed-in">Games On Other User's Wishlists</h2>
-<button id="post-wanted-game" type="button" class="not-signed-in btn btn-success" name="post-wanted-game-btn">Add to Wishlist</button>
-<h4 class="message table-message"></h4>
-</div>
-  <table id="game_table_id" class="display table table-striped table-bordered hide-table" width="70%" data-page-length="10" data-order="[[ 1, &quot;asc&quot; ]]">
+  <div class="table-header">
+    <h2 class="table-title not-signed-in">Games On Other User's Wishlists</h2>
+    <button id="post-wanted-game" type="button" class="not-signed-in btn btn-success"
+    name="post-wanted-game-btn">Add to Wishlist</button>
+    <h4 class="message table-message"></h4>
+  </div>
+  <table id="game_table_id" class="display table table-striped table-bordered hide-table"
+  width="70%" data-page-length="10" data-order="[[ 1, &quot;asc&quot; ]]">
     <thead>
-        <tr>
-            <th class='show_table-api'>Name</th>
-            <th class='show_table-api'>Release Date</th>
-            <!-- <th class='show_table-api'>popularity</th> -->
-            <!-- <th class='show_table-api'>rating</th> -->
-            <!-- <th class='show_table-api'>summary</th> -->
-            <!-- <th class='show_table-api'>storyline> -->
-            <th class='show_table-api'>Platform</th>
-        </tr>
+      <tr>
+        <th class='show_table-api'>Name</th>
+        <th class='show_table-api'>Release Date</th>
+        <!-- <th class='show_table-api'>popularity</th> -->
+        <!-- <th class='show_table-api'>rating</th> -->
+        <!-- <th class='show_table-api'>summary</th> -->
+        <!-- <th class='show_table-api'>storyline> -->
+        <th class='show_table-api'>Platform</th>
+      </tr>
     </thead>
 
     <tfoot>
       <tr>
-          <th class='show_table-api'>Name</th>
-          <th class='show_table-api'>Release Date</th>
-          <!-- <th class='show_table-api'>popularity</th> -->
-          <!-- <th class='show_table-api'>rating</th> -->
-          <!-- <th class='show_table-api'>summary</th> -->
-          <!-- <th class='show_table-api'>storyline> -->
-          <th class='show_table-api'>Platform</th>
+        <th class='show_table-api'>Name</th>
+        <th class='show_table-api'>Release Date</th>
+        <!-- <th class='show_table-api'>popularity</th> -->
+        <!-- <th class='show_table-api'>rating</th> -->
+        <!-- <th class='show_table-api'>summary</th> -->
+        <!-- <th class='show_table-api'>storyline> -->
+        <th class='show_table-api'>Platform</th>
 
       </tr>
     </tfoot>
-</table>
-<div class="table-header">
-<h2 class="table-title not-signed-in">Your Wishlist</h2>
-<button id="delete-wanted-game" type="button" class="not-signed-in btn btn-danger" name="delete-wanted-game-btn">Delete</button>
-<h4 class="message wanted-game-message"></h4>
-</div>
-<table id="wanted_table_id" class="display table table-striped table-bordered clear-input hide-table" width="70%" data-page-length="10" data-order="[[ 1, &quot;asc&quot; ]]">
-  <thead>
+  </table>
+  <div class="table-header">
+    <h2 class="table-title not-signed-in">Your Wishlist</h2>
+    <button id="delete-wanted-game" type="button" class="not-signed-in btn btn-danger"
+    name="delete-wanted-game-btn">Delete</button>
+    <h4 class="message wanted-game-message"></h4>
+  </div>
+  <table id="wanted_table_id" class="display table table-striped table-bordered clear-input hide-table"
+  width="70%" data-page-length="10" data-order="[[ 1, &quot;asc&quot; ]]">
+    <thead>
       <tr>
         <th class='index-wanted'>Name</th>
         <th class='index-wanted'>Release Date</th>
         <th class='index-wanted'>Platform</th>
 
       </tr>
-  </thead>
+    </thead>
 
-  <tfoot>
-    <tr>
-      <th class='index-wanted'>Name</th>
-      <th class='index-wanted'>Release Date</th>
-      <th class='index-wanted'>Platform</th>
-    </tr>
-  </tfoot>
-</table>
+    <tfoot>
+      <tr>
+        <th class='index-wanted'>Name</th>
+        <th class='index-wanted'>Release Date</th>
+        <th class='index-wanted'>Platform</th>
+      </tr>
+    </tfoot>
+  </table>
 
-    </body>
+</body>
+
 </html>

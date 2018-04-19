@@ -2,8 +2,6 @@
 
 const store = require('./store')
 const config = require('./config')
-// const $ = require('jquery')
-// const dt = require('datatables.net')()
 const signUp = function (data) {
   return $.ajax({
     url: config.apiOrigin + '/sign-up',
